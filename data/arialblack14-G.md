@@ -11,7 +11,7 @@
 | [G-6](#G16) |`>=` costs less gas than `>`. | 23
 | [G-7](#G18) |`<x> += <y>` costs more gas than `<x> = <x> + <y>` for state variables | 21
 
-*Total: 18 issues.*
+*Total: 7 issues.*
 
 ---
 ### Gas Optimizations
