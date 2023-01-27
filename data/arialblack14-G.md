@@ -441,7 +441,7 @@ File: [2023-01-drips/src/Splits.sol](https://github.com/code-423n4/2023-01-drips
 Using the addition operator instead of plus-equals saves **[113 gas](https://gist.github.com/IllIllI000/cbbfb267425b898e5be734d4008d4fe8)**
 
 ##### Recommendation
-Use `<x> += <y>` instead.
+Use `<x> = <x> + <y>` instead.
 
 ##### *Instances (21):*
 File: [2023-01-drips/src/Drips.sol](https://github.com/code-423n4/2023-01-drips/tree/main/src/Drips.sol#L253 )
