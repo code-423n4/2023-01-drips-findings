@@ -1,0 +1,8 @@
+{
+  "contest": 209,
+  "handle": "focuspocus",
+  "risk": "2",
+  "title": "Exploiting the CallAs() Function to Attack Smart Contracts",
+  "issueId": 22,
+  "issueUrl": "https://github.com/code-423n4/2023-01-drips-findings/issues/22"
+}
