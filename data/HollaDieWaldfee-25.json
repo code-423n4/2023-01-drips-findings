@@ -1,0 +1,8 @@
+{
+  "contest": 209,
+  "handle": "HollaDieWaldfee",
+  "risk": "2",
+  "title": "Drips.sol: Using uint32 for timestamps makes protocol inoperable by the year 2106",
+  "issueId": 25,
+  "issueUrl": "https://github.com/code-423n4/2023-01-drips-findings/issues/25"
+}
