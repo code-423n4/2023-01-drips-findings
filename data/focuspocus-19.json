@@ -1,0 +1,8 @@
+{
+  "contest": 209,
+  "handle": "focuspocus",
+  "risk": "3",
+  "title": "Overflow Vulnerability in Splits Contract Due to Maximum Splits Receivers Limitation (_MAX_SPLITS_RECEIVERS = 200)",
+  "issueId": 19,
+  "issueUrl": "https://github.com/code-423n4/2023-01-drips-findings/issues/19"
+}
