@@ -1,0 +1,8 @@
+{
+  "contest": 209,
+  "handle": "HollaDieWaldfee",
+  "risk": "2",
+  "title": "Splits.sol: splittable balance distribution can be unfair",
+  "issueId": 29,
+  "issueUrl": "https://github.com/code-423n4/2023-01-drips-findings/issues/29"
+}
