@@ -1,0 +1,8 @@
+{
+  "contest": 209,
+  "handle": "0xbrett8571",
+  "risk": "2",
+  "title": "Missing User Existence Check in _addSplittable Function.",
+  "issueId": 54,
+  "issueUrl": "https://github.com/code-423n4/2023-01-drips-findings/issues/54"
+}
