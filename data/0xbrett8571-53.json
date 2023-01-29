@@ -1,0 +1,8 @@
+{
+  "contest": 209,
+  "handle": "0xbrett8571",
+  "risk": "3",
+  "title": "Lack of flexibility in updating cycle length leading to potential contract redeployment.",
+  "issueId": 53,
+  "issueUrl": "https://github.com/code-423n4/2023-01-drips-findings/issues/53"
+}
