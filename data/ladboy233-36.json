@@ -1,0 +1,8 @@
+{
+  "contest": 209,
+  "handle": "ladboy233",
+  "risk": "2",
+  "title": "Malicious Admin owner can upgrade the DripsHub.sol and rug all the token",
+  "issueId": 36,
+  "issueUrl": "https://github.com/code-423n4/2023-01-drips-findings/issues/36"
+}
