@@ -1,0 +1,8 @@
+{
+  "contest": 209,
+  "handle": "savi0ur",
+  "risk": "2",
+  "title": "Config update happening in memory instead of at storage slot",
+  "issueId": 70,
+  "issueUrl": "https://github.com/code-423n4/2023-01-drips-findings/issues/70"
+}
