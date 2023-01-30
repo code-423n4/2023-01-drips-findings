@@ -217,8 +217,6 @@ Loss of precision due to the nature of arithmetics and rounding errors.
 
 For upgradeable contracts, inheriting contracts may introduce new variables. In order to be able to add new variables to the upgradeable contract without causing storage collisions, a storage gap should be added to the upgradeable contract.
 
-In order to be able to add new variables to the upgradeable contract without causing storage collisions, a storage gap should be added to the upgradeable contract.
-
 See [this](https://docs.openzeppelin.com/contracts/4.x/upgradeable#storage_gaps) for a description of this storage variable. 
 
 #### Lines of code 
@@ -320,9 +318,7 @@ pragma solidity ^0.8.17;
 
 #### Recommended Mitigation Steps
 
-Ethereum Smart Contract Best Practices - Lock pragmas to specific compiler version. 
-
-> https://consensys.github.io/smart-contract-best-practices/development-recommendations/solidity-specific/locking-pragmas/
+[Ethereum Smart Contract Best Practices](https://consensys.github.io/smart-contract-best-practices/development-recommendations/solidity-specific/locking-pragmas/):  Lock pragmas to specific compiler version.
 
 ## [NC-02] Contracts should have full test coverage
 
