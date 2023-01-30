@@ -2,16 +2,16 @@
 
 | G-O    |Issue|
 |:------:|:----|
-| [N&#x2011;01] | Division by two should use bit shifting | 2 |
-| [N&#x2011;02] | x = x - y costs less gas than x -= y, same for addition | 6 |
-| [N&#x2011;03] | THERE’S NO NEED TO SET DEFAULT VALUES FOR VARIABLES | 11 |
-| [N&#x2011;04] | Use custom errors instead of revert strings | 19 |
-| [N&#x2011;05] | Cache Array Length Outside of Loop | 31 |
-| [N&#x2011;06] | ++i costs less gas than i++, especially when it's used in for-loops (--i/i-- too) | 2 |
-| [N&#x2011;07] | REQUIRE()/REVERT() STRINGS LONGER THAN 32 BYTES COST EXTRA GAS | 1 |
-| [N&#x2011;08] | BYTES CONSTANTS ARE MORE EFFICIENT THAN STRING CONSTANTS | 1 |
-| [N&#x2011;09] | Use x != 0 instead of x > 0 for uint types | 1 |
-| [N&#x2011;10] | ++I/I++ SHOULD BE UNCHECKED{++I}/UNCHECKED{I++} WHEN IT IS NOT POSSIBLE FOR THEM TO OVERFLOW | 1 |
+| [G&#x2011;01] | Division by two should use bit shifting | 2 |
+| [G&#x2011;02] | x = x - y costs less gas than x -= y, same for addition | 6 |
+| [G&#x2011;03] | THERE’S NO NEED TO SET DEFAULT VALUES FOR VARIABLES | 11 |
+| [G&#x2011;04] | Use custom errors instead of revert strings | 19 |
+| [G&#x2011;05] | Cache Array Length Outside of Loop | 31 |
+| [G&#x2011;06] | ++i costs less gas than i++, especially when it's used in for-loops (--i/i-- too) | 2 |
+| [G&#x2011;07] | REQUIRE()/REVERT() STRINGS LONGER THAN 32 BYTES COST EXTRA GAS | 1 |
+| [G&#x2011;08] | BYTES CONSTANTS ARE MORE EFFICIENT THAN STRING CONSTANTS | 1 |
+| [G&#x2011;09] | Use x != 0 instead of x > 0 for uint types | 1 |
+| [G&#x2011;10] | ++I/I++ SHOULD BE UNCHECKED{++I}/UNCHECKED{I++} WHEN IT IS NOT POSSIBLE FOR THEM TO OVERFLOW | 1 |
 
 Total: 10 issues
 
