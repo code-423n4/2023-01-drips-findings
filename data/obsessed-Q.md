@@ -5,9 +5,11 @@
 
 | |Issue|Instances|
 |-|:-|:-:|
-| [NC-1] | Named parameter/s in the return statement of a function are not used | 15 |
+| [NC-1] | Named parameters for the return statement are not used inside function | 15 |
+| [NC-2] | Insufficient Coverage | 1 |
+| [NC-3] | Use safeMint instead of mint | 1 |
 
-### [NC-1] Named parameter/s in the return statement of a function are not used
+### [NC-1] Named parameters for the return statement are not used inside function
 Named parameter/s in the return statement of a function are not used and thus it creates more confusion and don't improve overall readability.
 
 *Instances (15)*:
@@ -44,5 +46,34 @@ File: AddressDriver.sol
 File: ImmutableSplitsDriver.sol
 
 36:   function nextUserId() public view returns (uint256 userId) {
+
+```
+
+### [NC-2] Insufficient Coverage
+The test coverage rate of the project is not enough. Testing all functions is best practice in terms of security criteria.
+
+```bash
+| File                          | % Lines          | % Statements     | % Branches       | % Funcs          |
+|-------------------------------|------------------|------------------|------------------|------------------|
+| src/AddressDriver.sol         | 100.00% (16/16)  | 100.00% (16/16)  | 100.00% (6/6)    | 87.50% (7/8)     |
+| src/Caller.sol                | 100.00% (22/22)  | 100.00% (30/30)  | 100.00% (10/10)  | 100.00% (8/8)    |
+| src/Drips.sol                 | 89.05% (244/274) | 89.27% (283/317) | 66.98% (71/106)  | 83.33% (30/36)   |
+| src/DripsHub.sol              | 100.00% (58/58)  | 100.00% (63/63)  | 100.00% (14/14)  | 100.00% (31/31)  |
+| src/ImmutableSplitsDriver.sol | 100.00% (10/10)  | 100.00% (13/13)  | 75.00% (3/4)     | 100.00% (2/2)    |
+| src/Managed.sol               | 94.12% (16/17)   | 94.12% (16/17)   | 100.00% (4/4)    | 100.00% (12/12)  |
+| src/NFTDriver.sol             | 87.10% (27/31)   | 87.88% (29/33)   | 80.00% (8/10)    | 94.44% (17/18)   |
+| src/Splits.sol                | 100.00% (64/64)  | 100.00% (71/71)  | 68.18% (15/22)   | 100.00% (13/13)  |
+
+```
+
+### [NC-3] Use safeMint instead of mint
+According to openzepplin’s ERC721, the use of _mint is discouraged, use safeMint whenever possible.
+
+*Instances (1)*:
+
+```solidity
+File: NFTDriver.sol
+
+62:   function mint(address to, UserMetadata[] calldata userMetadata) public whenNotPaused returns (uint256 tokenId) {
 
 ```
