@@ -26,6 +26,8 @@ QA5. It is important to emit events when critical state variables are changed by
 
 a) https://github.com/code-423n4/2023-01-drips/blob/9fd776b50f4be23ca038b1d0426e63a69c7a511d/src/DripsHub.sol#L629-L637
 
+
+
 QA6. [_addDeltaRange()](https://github.com/code-423n4/2023-01-drips/blob/9fd776b50f4be23ca038b1d0426e63a69c7a511d/src/Drips.sol#L1020-L1030) fails to check the input range is valid. 
 One caller [_updateReceiverStates()](https://github.com/code-423n4/2023-01-drips/blob/9fd776b50f4be23ca038b1d0426e63a69c7a511d/src/Drips.sol#L872-L965) forgot to check this and possibly pass invalid ranges to this function, causing a chaos to the system.
 
@@ -71,4 +73,31 @@ function _addDeltaRange(DripsState storage state, uint32 start, uint32 end, int2
     }
 ```
 
+QA7. False emit is possible here. 
+
+https://github.com/code-423n4/2023-01-drips/blob/9fd776b50f4be23ca038b1d0426e63a69c7a511d/src/Splits.sol#L215
+```
+function _setSplits(uint256 userId, SplitsReceiver[] memory receivers) internal {
+        SplitsState storage state = _splitsStorage().splitsStates[userId];
+        bytes32 newSplitsHash = _hashSplits(receivers);
+        emit SplitsSet(userId, newSplitsHash);
+        if (newSplitsHash != state.splitsHash) {
+            _assertSplitsValid(receivers, newSplitsHash);
+            state.splitsHash = newSplitsHash;
+        }
+    }
+```
+We need to check whether it is a new receiver list. The emit statement needs to be in the if block.
+```diff
+function _setSplits(uint256 userId, SplitsReceiver[] memory receivers) internal {
+        SplitsState storage state = _splitsStorage().splitsStates[userId];
+        bytes32 newSplitsHash = _hashSplits(receivers);
+-        emit SplitsSet(userId, newSplitsHash);
+        if (newSplitsHash != state.splitsHash) {
+            _assertSplitsValid(receivers, newSplitsHash);
+            state.splitsHash = newSplitsHash;
++          emit SplitsSet(userId, newSplitsHash);
+        }
+    }
+```
 
