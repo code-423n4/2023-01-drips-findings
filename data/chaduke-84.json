@@ -1,0 +1,8 @@
+{
+  "contest": 209,
+  "handle": "chaduke",
+  "risk": "3",
+  "title": "_split will mostly fail/revert on small-weighted receivers due to underflow",
+  "issueId": 84,
+  "issueUrl": "https://github.com/code-423n4/2023-01-drips-findings/issues/84"
+}
