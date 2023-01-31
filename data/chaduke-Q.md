@@ -163,3 +163,7 @@ uint256 internal constant _MAX_SPLITS_RECEIVERS = 200;
     /// @notice The total amount the contract can keep track of each asset.
     uint256 internal constant _MAX_TOTAL_DRIPS_BALANCE = uint128(type(int128).max);
 ```
+
+QA9. Use a two-step ownership transfer procedure ``safeTransferOwnership`` instead of a one-step admin changing function. Changing admin in one step is risky: if the new address is a wrong input by mistake, we will lose all the privileges of the owner. 
+
+Recommendation:  Use OpenZeppelin's Ownable2Step. https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/access/Ownable2Step.sol
