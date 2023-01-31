@@ -21,20 +21,6 @@ function _drippedAmt(uint256 amtPerSec, uint256 start, uint256 end)
     }
 ```
 
-G2. We can save gas and also more readable equivalent for this block
-ttps://github.com/code-423n4/2023-01-drips/blob/9fd776b50f4be23ca038b1d0426e63a69c7a511d/src/Drips.sol#L282-L285
-```
- if (toCycle - fromCycle > maxCycles) {
-            receivableCycles = toCycle - fromCycle - maxCycles;
-            toCycle -= receivableCycles;
-        }
-```
-can be reimplemented as
-```
- if (toCycle - fromCycle > maxCycles) {
-            toCycle = fromCycle + maxCycles;
- }
-```
 
 G3. The ``_calcMaxEnd`` function calculates the maximum end time of drips based on two given hints and a binary search. This function can be improved to calculate a new function called ``(maxspend, maxend) = maxSpendMaxEnd()`` that returns the maximum drips that can be spent ```maxspend`` and the the maximum end time to spend the ``maxspend``. 
 ```script
