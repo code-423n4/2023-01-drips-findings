@@ -128,3 +128,38 @@ Mitigation:
 1) implement the initialize function  - do not rely on constructors to perform initialization, which will not work for proxies. 
 2)  include ``_disableInitializers();`` in the constructor.
 
+QA8. It is advised that all constants should be defined in one file:
+```javascript
+  uint256 public constant MAX_DRIPS_RECEIVERS = _MAX_DRIPS_RECEIVERS;
+    /// @notice The additional decimals for all amtPerSec values.
+    uint8 public constant AMT_PER_SEC_EXTRA_DECIMALS = _AMT_PER_SEC_EXTRA_DECIMALS;
+    /// @notice The multiplier for all amtPerSec values.
+    uint256 public constant AMT_PER_SEC_MULTIPLIER = _AMT_PER_SEC_MULTIPLIER;
+    /// @notice Maximum number of splits receivers of a single user. Limits the cost of splitting.
+    uint256 public constant MAX_SPLITS_RECEIVERS = _MAX_SPLITS_RECEIVERS;
+    /// @notice The total splits weight of a user
+    uint32 public constant TOTAL_SPLITS_WEIGHT = _TOTAL_SPLITS_WEIGHT;
+    /// @notice The offset of the controlling driver ID in the user ID.
+    /// In other words the controlling driver ID is the highest 32 bits of the user ID.
+    uint256 public constant DRIVER_ID_OFFSET = 224;
+    /// @notice The total amount the contract can store of each token.
+    /// It's the minimum of _MAX_TOTAL_DRIPS_BALANCE and _MAX_TOTAL_SPLITS_BALANCE.
+    uint256 public constant MAX_TOTAL_BALANCE = _MAX_TOTAL_DRIPS_BALANCE;
+    /// @notice The ERC-1967 storage slot holding a single `DripsHubStorage` structure.
+    bytes32 private immutable _dripsHubStorageSlot = _erc1967Slot("eip1967.dripsHub.storage");
+uint256 internal constant _MAX_SPLITS_RECEIVERS = 200;
+    /// @notice The total splits weight of a user
+    uint32 internal constant _TOTAL_SPLITS_WEIGHT = 1_000_000;
+    /// @notice The total amount the contract can keep track of each asset.
+    // slither-disable-next-line unused-state
+    uint256 internal constant _MAX_TOTAL_SPLITS_BALANCE = type(uint128).max;
+    /// @notice The storage slot holding a single `SplitsStorage` structure.
+    bytes32 private immutable _splitsStorageSlot;
+    uint256 internal constant _MAX_DRIPS_RECEIVERS = 100;
+    /// @notice The additional decimals for all amtPerSec values.
+    uint8 internal constant _AMT_PER_SEC_EXTRA_DECIMALS = 9;
+    /// @notice The multiplier for all amtPerSec values. It's `10 ** _AMT_PER_SEC_EXTRA_DECIMALS`.
+    uint256 internal constant _AMT_PER_SEC_MULTIPLIER = 1_000_000_000;
+    /// @notice The total amount the contract can keep track of each asset.
+    uint256 internal constant _MAX_TOTAL_DRIPS_BALANCE = uint128(type(int128).max);
+```
