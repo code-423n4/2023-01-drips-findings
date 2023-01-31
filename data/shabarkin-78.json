@@ -1,0 +1,8 @@
+{
+  "contest": 209,
+  "handle": "shabarkin",
+  "risk": "2",
+  "title": "Stealing funds from the Trusted Forwarder (Caller contract); ERC2771",
+  "issueId": 78,
+  "issueUrl": "https://github.com/code-423n4/2023-01-drips-findings/issues/78"
+}
