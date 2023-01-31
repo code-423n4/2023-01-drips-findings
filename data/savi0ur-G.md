@@ -171,3 +171,76 @@ require(
 ```
 https://github.com/code-423n4/2023-01-drips/blob/main/src/Splits.sol#L254-L256
 
+# [G-04] Avoid unnecessary read of array length in for/while loops can save gas
+
+Reading array length at each iteration of the loop takes 6 gas (3 for mload and 3 to place memory_offset) in the stack.
+
+```solidity
+196: for (uint256 i = 0; i < calls.length; i++) {
+```
+https://github.com/code-423n4/2023-01-drips/blob/main/src/Caller.sol#L196
+
+```solidity
+bool pickCurr = currIdx < currReceivers.length; 
+```
+https://github.com/code-423n4/2023-01-drips/blob/main/src/Drips.sol#L883
+
+```solidity
+bool pickNew = newIdx < newReceivers.length; 
+```
+https://github.com/code-423n4/2023-01-drips/blob/main/src/Drips.sol#L890
+
+```solidity
+422: for (uint256 i = 1; i <= dripsHistory.length && i <= currCycleConfigs; i++) {
+```
+https://github.com/code-423n4/2023-01-drips/blob/main/src/Drips.sol#L422
+
+```solidity
+450: for (uint256 i = 0; i < dripsHistory.length; i++) {
+```
+https://github.com/code-423n4/2023-01-drips/blob/main/src/Drips.sol#L450
+
+```solidity
+490: for (; idx < receivers.length; idx++) {
+```
+https://github.com/code-423n4/2023-01-drips/blob/main/src/Drips.sol#L490
+
+```solidity
+563: for (uint256 i = 0; i < receivers.length; i++) {
+```
+https://github.com/code-423n4/2023-01-drips/blob/main/src/Drips.sol#L563
+
+```solidity
+664: for (uint256 i = 0; i < newReceivers.length; i++) {
+```
+https://github.com/code-423n4/2023-01-drips/blob/main/src/Drips.sol#L664
+
+```solidity
+777: for (uint256 i = 0; i < receivers.length; i++) {
+```
+https://github.com/code-423n4/2023-01-drips/blob/main/src/Drips.sol#L777
+
+```solidity
+613: for (uint256 i = 0; i < userMetadata.length; i++) {
+```
+https://github.com/code-423n4/2023-01-drips/blob/main/src/DripsHub.sol#L613
+
+```solidity
+61: for (uint256 i = 0; i < receivers.length; i++) {
+```
+https://github.com/code-423n4/2023-01-drips/blob/main/src/ImmutableSplitsDriver.sol#L61
+
+```solidity
+127: for (uint256 i = 0; i < currReceivers.length; i++) {
+```
+https://github.com/code-423n4/2023-01-drips/blob/main/src/Splits.sol#L127
+
+```solidity
+158: for (uint256 i = 0; i < currReceivers.length; i++) {
+```
+https://github.com/code-423n4/2023-01-drips/blob/main/src/Splits.sol#L158
+
+```solidity
+231: for (uint256 i = 0; i < receivers.length; i++) {
+```
+https://github.com/code-423n4/2023-01-drips/blob/main/src/Splits.sol#L231
