@@ -1,0 +1,8 @@
+{
+  "contest": 209,
+  "handle": "whilom",
+  "risk": "2",
+  "title": "`receivableCycles` can still be `> maxCycles` in `_receiveDripsResult`",
+  "issueId": 82,
+  "issueUrl": "https://github.com/code-423n4/2023-01-drips-findings/issues/82"
+}
