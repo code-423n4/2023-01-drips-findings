@@ -5,6 +5,7 @@
 | L-01      | Unlocked pragma | - | 8 |
 | L-02      | Use 2-Step-Process to change admin | Managed.sol | 1 |
 | L-03      | Check that driver address is not zero address | DripsHub.sol | 2 |
+| L-04      | Application will be unusable by the year 2106 | Drips.sol | 1 |
 | N-01      | Remove unnecessary imports | - | 3 |
 | N-02      | Remove unnecessary `_MAX_TOTAL_SPLITS_BALANCE` variable | Splits.sol | 1 |
 | N-03      | `require` statement is redundant | Splits.sol | 1 |
@@ -50,6 +51,18 @@ This is especially important for `DripsHub.updateDriverAddress`. Registering the
 
 [https://github.com/code-423n4/2023-01-drips/blob/9fd776b50f4be23ca038b1d0426e63a69c7a511d/src/DripsHub.sol#L152-L156](https://github.com/code-423n4/2023-01-drips/blob/9fd776b50f4be23ca038b1d0426e63a69c7a511d/src/DripsHub.sol#L152-L156)  
 
+## [L-04] Application will be unusable by the year 2106
+The `Drips` contract converts timestamps to `uint32` in the `_currTimestamp` function ([https://github.com/code-423n4/2023-01-drips/blob/9fd776b50f4be23ca038b1d0426e63a69c7a511d/src/Drips.sol#L1128-L1130](https://github.com/code-423n4/2023-01-drips/blob/9fd776b50f4be23ca038b1d0426e63a69c7a511d/src/Drips.sol#L1128-L1130)).  
+
+The `_currTimestamp` function is necessary for the operation of the `Drips` contract and thereby the whole protocol.  
+
+Using `uint32` to hold timestamps means that the protocol becomes inoperable by the year ~2106.  
+
+The issue with this is that it severly limits the potential of the Drips protocol.  
+Many other protocols may chose not to integrate with Drips because of this limitation.  
+
+A protocol that wants to make sure it can operate for as long as possible without a built-in "kill date" cannot use the Drips protocol.  
+
 ## [N-01] Remove unnecessary imports
 Solidity files should only import the dependencies that are necessary to make the code cleaner and make it easier to understand.  
 
@@ -90,4 +103,3 @@ The `DripsReceiverSeen` event is emitted in the `_setDrips` function for each re
 Each asset has its own drips receivers.  
 
 Therefore the event should also emit the `assetId` to describe which asset the receiver is set for.  
-
