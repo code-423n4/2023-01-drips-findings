@@ -170,3 +170,7 @@ uint256 internal constant _MAX_SPLITS_RECEIVERS = 200;
 QA9. Use a two-step ownership transfer procedure ``safeTransferOwnership`` instead of a one-step admin changing function. Changing admin in one step is risky: if the new address is a wrong input by mistake, we will lose all the privileges of the owner. 
 
 Recommendation:  Use OpenZeppelin's Ownable2Step. https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/access/Ownable2Step.sol
+
+QA10. Use a two-step registration procedure to register a new address to avoid spamming and input mistake: 
+1) First step is to propose the new address; 2) use the new address to accept the registration. 
+https://github.com/code-423n4/2023-01-drips/blob/9fd776b50f4be23ca038b1d0426e63a69c7a511d/src/DripsHub.sol#L134-L139
