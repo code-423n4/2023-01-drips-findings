@@ -6,6 +6,7 @@
 | L-02      | Use 2-Step-Process to change admin | Managed.sol | 1 |
 | L-03      | Check that driver address is not zero address | DripsHub.sol | 2 |
 | L-04      | Application will be unusable by the year 2106 | Drips.sol | 1 |
+| L-05      | `name` and `symbol` of `NFTDriver` cannot be accessed via Proxy | NFTDriver.sol | 1 |
 | N-01      | Remove unnecessary imports | - | 3 |
 | N-02      | Remove unnecessary `_MAX_TOTAL_SPLITS_BALANCE` variable | Splits.sol | 1 |
 | N-03      | `require` statement is redundant | Splits.sol | 1 |
@@ -62,6 +63,15 @@ The issue with this is that it severly limits the potential of the Drips protoco
 Many other protocols may chose not to integrate with Drips because of this limitation.  
 
 A protocol that wants to make sure it can operate for as long as possible without a built-in "kill date" cannot use the Drips protocol.  
+
+## [L-05] `name` and `symbol` of `NFTDriver` cannot be accessed via Proxy
+The OpenZeppelin `ERC721` contract which `NFTDriver` inherits stores `_name` and `_symbol` in storage ([https://github.com/OpenZeppelin/openzeppelin-contracts/blob/501a78e13426ec10249e44386239c74783478dd0/contracts/token/ERC721/ERC721.sol#L24-L27](https://github.com/OpenZeppelin/openzeppelin-contracts/blob/501a78e13426ec10249e44386239c74783478dd0/contracts/token/ERC721/ERC721.sol#L24-L27)).  
+
+Also, `_name` and `_symbol` are set in the constructor of the `ERC721` contract ([https://github.com/OpenZeppelin/openzeppelin-contracts/blob/501a78e13426ec10249e44386239c74783478dd0/contracts/token/ERC721/ERC721.sol#L44-L47](https://github.com/OpenZeppelin/openzeppelin-contracts/blob/501a78e13426ec10249e44386239c74783478dd0/contracts/token/ERC721/ERC721.sol#L44-L47)).  
+
+Thereby, when `name` and `symbol` are queried from the Proxy, empty bytes are returned.  
+
+This is bad because the Proxy contract should obviously return the `name` and `symbol` of the `NFTDriver`. This can be solved by overriding the `name` and `symbol` functions in the `NFTDriver` contract to just return "DripsHub identity" and "DHI" without needing to read from any variable.  
 
 ## [N-01] Remove unnecessary imports
 Solidity files should only import the dependencies that are necessary to make the code cleaner and make it easier to understand.  
