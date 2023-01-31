@@ -1,3 +1,9 @@
+G1. Using unchecked for these blocks can save gas. Due to a previous check or the property of the contracts, underflow/overflow is impossible for these blocks.
+
+G2. These checks can be eliminated to save gas since they will be checked again in later part of the execution. 
+a) https://github.com/code-423n4/2023-01-drips/blob/9fd776b50f4be23ca038b1d0426e63a69c7a511d/src/Drips.sol#L622
+
+
 G1. The ``_drippedAmt()`` calculates amount in terms of both ``cycleSecs`` and ``amtPerSec``. It first calculates the ``endedCycles`` and then make adjustment on amount on both ends.  We can save gas by calculating directly on seconds alone; see below.
 
 https://github.com/code-423n4/2023-01-drips/blob/9fd776b50f4be23ca038b1d0426e63a69c7a511d/src/Drips.sol#L1093-L1115
