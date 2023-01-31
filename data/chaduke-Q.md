@@ -21,3 +21,8 @@ https://github.com/code-423n4/2023-01-drips/blob/9fd776b50f4be23ca038b1d0426e63a
 ```
 
 Mitigation: This is similar to the change of the owner of a contract. We need to  follow a two-step procedure: 1) first set the new pending address; 2) use the new pending address to accept the change to the final new driver address. 
+
+QA5. It is important to emit events when critical state variables are changed by some functions. 
+
+a) https://github.com/code-423n4/2023-01-drips/blob/9fd776b50f4be23ca038b1d0426e63a69c7a511d/src/DripsHub.sol#L629-L637
+
