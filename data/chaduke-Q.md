@@ -100,6 +100,9 @@ function _setSplits(uint256 userId, SplitsReceiver[] memory receivers) internal 
         }
     }
 ```
+https://github.com/code-423n4/2023-01-drips/blob/9fd776b50f4be23ca038b1d0426e63a69c7a511d/src/DripsHub.sol#L152-L155
+
+We need to check whether the driver's new address is the same as the old one. 
 
 QA7. ``DripsHub`` has a serious problem for the implementation of UUPSUpgradeable:
 1) There is not ``Initialize()`` function in the implementation of ``Driphub and ``Managed``. The constructors do not initialize the context for the proxy. ``Initialize()`` does. 
