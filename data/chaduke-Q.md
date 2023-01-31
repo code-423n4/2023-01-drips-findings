@@ -105,8 +105,9 @@ https://github.com/code-423n4/2023-01-drips/blob/9fd776b50f4be23ca038b1d0426e63a
 
 We need to check whether the driver's new address is the same as the old one. 
 
-QA7. ``DripsHub`` has a serious problem for the implementation of UUPSUpgradeable:
-1) There is not ``Initialize()`` function in the implementation of ``Driphub and ``Managed``. The constructors do not initialize the context for the proxy. ``Initialize()`` does. 
+QA7. ``DripsHub`` and ``ImmutableSplitDriver`` have a serious problem for the implementation of UUPSUpgradeable:
+1) There is no ``Initialize()`` function in the implementation of ``Driphub and ``Managed`` and ``ImmutableSplitDriver``. The constructors do not initialize the context for the proxy. ``Initialize()`` does.  For example, there is no way to initialize ``_cycleSecs``, ``_dripsStorageSlot``, ``_splitsStorageSlot`` for ``DripsHub`` from the proxy. There is no way to initialize ``dripsHub``,   ``driverId``,  ``totalSplitsWeight`` for ``ImmutableSplitDriver`` from the proxy either.
+ 
 ```
  constructor(uint32 cycleSecs_)
         Drips(cycleSecs_, _erc1967Slot("eip1967.drips.storage"))
@@ -129,7 +130,9 @@ constructor() {
 ```
 
 Mitigation:
-1) implement the initialize function  - do not rely on constructors to perform initialization, which will not work for proxies. 
+1) implement the initialize function  - do not rely on constructors to perform initialization, which will not work for proxies.  
+
+
 2)  include ``_disableInitializers();`` in the constructor.
 
 QA8. It is advised that all constants should be defined in one file:
