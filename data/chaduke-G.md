@@ -117,3 +117,6 @@ function _calcMaxEnd(
     }
 
 ```
+
+G4. The second requirement already implies the first requirement, therefore, the first requirement statement can be eliminated to save gas.
+https://github.com/code-423n4/2023-01-drips/blob/9fd776b50f4be23ca038b1d0426e63a69c7a511d/src/Splits.sol#L238-L239
