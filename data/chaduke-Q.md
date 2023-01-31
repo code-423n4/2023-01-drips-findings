@@ -101,3 +101,30 @@ function _setSplits(uint256 userId, SplitsReceiver[] memory receivers) internal 
     }
 ```
 
+QA7. ``DripsHub`` has a serious problem for the implementation of UUPSUpgradeable:
+1) There is not ``Initialize()`` function in the implementation of ``Driphub and ``Managed``. The constructors do not initialize the context for the proxy. ``Initialize()`` does. 
+```
+ constructor(uint32 cycleSecs_)
+        Drips(cycleSecs_, _erc1967Slot("eip1967.drips.storage"))
+        Splits(_erc1967Slot("eip1967.splits.storage"))
+    {
+        return;
+    }
+
+ constructor() {
+        _managedStorage().isPaused = true;
+    }
+```
+
+2) There are no ``_disableInitializers();`` called in the constructor, which is necessary to prevent initialization of the implementation contract itself, as extra protection to prevent an attacker from initializing it.
+```javascript
+// @custom:oz-upgrades-unsafe-allow constructor
+constructor() {
+    _disableInitializers();
+}
+```
+
+Mitigation:
+1) implement the initialize function  - do not rely on constructors to perform initialization, which will not work for proxies. 
+2)  include ``_disableInitializers();`` in the constructor.
+
