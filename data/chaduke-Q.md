@@ -175,3 +175,26 @@ Recommendation:  Use OpenZeppelin's Ownable2Step. https://github.com/OpenZeppeli
 QA10. Use a two-step registration procedure to register a new address to avoid spamming and input mistake: 
 1) First step is to propose the new address; 2) use the new address to accept the registration. 
 https://github.com/code-423n4/2023-01-drips/blob/9fd776b50f4be23ca038b1d0426e63a69c7a511d/src/DripsHub.sol#L134-L139
+
+QA11. Unless a driver sets the new address to the address of contract ``ImmutableSplitsDriver``, otherwise the call of ``ImmutableSplitsDriver.createSplits()`` will always fail. This needs to be well documented. 
+
+1) When a user calls the [ImmutableSplitsDriver.createSplits()](https://github.com/code-423n4/2023-01-drips/blob/9fd776b50f4be23ca038b1d0426e63a69c7a511d/src/ImmutableSplitsDriver.sol#L53-L68) function, the function calls ``dripsHub.setSplits``.
+
+3) ``dripsHub.setSplits()`` has a modifier ``onlyDriver()`` which checks if the caller is the driver's registered address:
+```javascript
+ modifier onlyDriver(uint256 userId) {
+        uint32 driverId = uint32(userId >> DRIVER_ID_OFFSET);
+        _assertCallerIsDriver(driverId);
+        _;
+    }
+
+function _assertCallerIsDriver(uint32 driverId) internal view {
+        require(driverAddress(driverId) == msg.sender, "Callable only by the driver");
+    }
+```
+
+4) The driver much register the ``ImmutableSplitsDriver`` as the address, otherwise, the check will fail. As a result both ``dripsHub.setSplits()`` and ``ImmutableSplitsDriver.createSplits()`` will always fail due to lack of address registration.
+
+Mitigation: add NatSpec to ``createSplits`` that a driver must register the address of the ``ImmutableSplitsDriver`` contract  first before calling this function. 
+
+
