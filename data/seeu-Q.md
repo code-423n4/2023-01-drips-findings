@@ -45,3 +45,26 @@ To increase explicitness and readability, take into account introducing and util
 ### References
 
 - [Unnamed return parameters | Opyn Bull Strategy Contracts Audit](https://blog.openzeppelin.com/opyn-bull-strategy-contracts-audit/#unnamed-return-parameters)
+
+
+## [L-3] Pragma Version 0.8.17 too recent to be trusted
+
+### Description
+
+In recert versions, unexpected problems might be reported. Use a more robust, non-legacy version like `0.8.10`.
+
+### Findings
+
+- [AddressDriver.sol](https://github.com/code-423n4/2023-01-drips/blob/main/src/AddressDriver.sol) => `^0.8.17`
+- [Caller.sol](https://github.com/code-423n4/2023-01-drips/blob/main/src/Caller.sol) => `^0.8.17`
+- [Drips.sol](https://github.com/code-423n4/2023-01-drips/blob/main/src/Drips.sol) => `^0.8.17`
+- [DripsHub.sol](https://github.com/code-423n4/2023-01-drips/blob/main/src/DripsHub.sol) => `^0.8.17`
+- [ImmutableSplitsDriver.sol](https://github.com/code-423n4/2023-01-drips/blob/main/src/ImmutableSplitsDriver.sol) => `^0.8.17`
+- [Managed.sol](https://github.com/code-423n4/2023-01-drips/blob/main/src/Managed.sol) => `^0.8.17`
+- [NFTDriver.sol](https://github.com/code-423n4/2023-01-drips/blob/main/src/NFTDriver.sol) => `^0.8.17`
+- [Splits.sol](https://github.com/code-423n4/2023-01-drips/blob/main/src/Splits.sol) => `^0.8.17`
+
+### References
+
+- [Ethereum Solidity changelog](https://github.com/ethereum/solidity/blob/develop/Changelog.md)
+- [[N-09] PRAGMA VERSION^0.8.17 VERSION TOO RECENT TO BE TRUSTED.](https://code4rena.com/reports/2022-12-caviar/#n-09-pragma-version0817--version-too-recent-to-be-trusted)
