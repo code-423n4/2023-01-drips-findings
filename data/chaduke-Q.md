@@ -200,4 +200,5 @@ function _assertCallerIsDriver(uint32 driverId) internal view {
 
 Mitigation: add NatSpec to ``createSplits`` that a driver must register the address of the ``ImmutableSplitsDriver`` contract  first before calling this function. 
 
+QA12. ``currCycleConfigs`` is a bit confusing. It is actually always going to be 1 + the number of changes of configs in the current cycle. Maybe a name like ``CurrCycleConfigsPlusOne`` would be better. 
 
