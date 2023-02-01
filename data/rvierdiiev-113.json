@@ -1,0 +1,8 @@
+{
+  "contest": 209,
+  "handle": "rvierdiiev",
+  "risk": "2",
+  "title": "NftDriver exposes burn function which can be used by mistake in order to remove access to your collectable amount inside DripsHub",
+  "issueId": 113,
+  "issueUrl": "https://github.com/code-423n4/2023-01-drips-findings/issues/113"
+}
