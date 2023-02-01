@@ -1,19 +1,19 @@
 # Summary
 |ID     | Finding|  Gas saved |Instances|
 |:----: | :---           |  :----:         |:----:         |
-|1       |Make for loop unchecked|644|13|
-|2       |Use an unchecked block when operands can't underflow/overflow|688|7|
-|3       |Write element of storage struct to memory when used more than once|10|1|
-|4       |Call block.timestamp direclty instead of function|22|1|
-|5       |Make 3 event parameters indexed when possible|1059|2|
-|6       |Transfer erc20 immediately to Dripshub|57824|1|
-|7       |Transfer ERC20 immediately to the user|22112|1|
-|8       |Use double if statements instead of &&|4|40|
-|9       |Miscellaneous| 100|3|
+|G-01       |Make for loop unchecked|644|13|
+|G-02       |Use an unchecked block when operands can't underflow/overflow|688|7|
+|G-03       |Write element of storage struct to memory when used more than once|10|1|
+|G-04       |Call block.timestamp direclty instead of function|22|1|
+|G-05       |Make 3 event parameters indexed when possible|1059|2|
+|G-06       |Transfer erc20 immediately to Dripshub|57824|1|
+|G-07       |Transfer ERC20 immediately to the user|22112|1|
+|G-08       |Use double if statements instead of &&|4|40|
+|G-09       |Miscellaneous| 100|3|
 
 
 # Details
-## 1 Make for loop unchecked
+## [G-01] Make for loop unchecked
 The risk of for loops getting overflowed is extremely low. Because it always increments by 1 and is limited to the arrays length. Even if the arrays are extremely long, it will take a massive amount of time and gas to let the for loop overflow.
 
 - [Caller.sol#L196-L199](https://github.com/code-423n4/2023-01-drips/blob/main/src/Caller.sol#L196-L199): `callBatched()` gas saved: 76
@@ -54,7 +54,7 @@ There are ways to make a for loop unchecked in a safe way
             returnData[i] = _call(sender, call.to, call.data, call.value);
         }
 ```
-## 2 Use an unchecked block when operands can't underflow/overflow
+## [G-02] Use an unchecked block when operands can't underflow/overflow
 [Drips.sol#L480](https://github.com/code-423n4/2023-01-drips/blob/main/src/Drips.sol#L480)
 
 Division can't overflow or underflow unless the divisor is -1. Which is not the case here. `DripsHub: squeezeDripsResult()` gas saved: 60
@@ -74,7 +74,7 @@ For ++, the same applies to:
 
 [DripsHub.sol#L632](https://github.com/code-423n4/2023-01-drips/blob/main/src/DripsHub.sol#L632): because of the require statement above, it can't overflow. `give()` gas saved: 54
 [DripsHub.sol#L636](https://github.com/code-423n4/2023-01-drips/blob/main/src/DripsHub.sol#L636): amount will never be larger than the total balance: `collect()` gas saved: 96
-## 3 Write element of storage struct to memory when used more than once
+## [G-03] Write element of storage struct to memory when used more than once
 When a struct contains a nested mapping, it's not possible to save it in memory. But it's possible to save one element of the struct to memory when it's used more than once. `DripsHub: balanceAt()` gas saved: 10
 
 - [Drips.sol#L539-L542](https://github.com/code-423n4/2023-01-drips/blob/main/src/Drips.sol#L539-L542)
@@ -87,7 +87,7 @@ When a struct contains a nested mapping, it's not possible to save it in memory.
 -       return _balanceAt(state.balance, state.updateTime, state.maxEnd, receivers, timestamp);
 +       return _balanceAt(state.balance, updateTime, state.maxEnd, receivers, timestamp);
 ```
-## 4 Call block.timestamp direclty instead of function
+## [G-04] Call block.timestamp direclty instead of function
 The `_currTimestamp()` function casts the `block.timestamp` to a uint32. However it's not always necessary to have a uint32.
 
 In the example below you are assigning the timestamp to a uint256. Which makes it unnecessary to cast the timestamp to uint32. So it's better to call `block.timestamp` directly.
@@ -97,7 +97,7 @@ In the example below you are assigning the timestamp to a uint256. Which makes i
 -    uint256 enoughEnd = _currTimestamp();
 +    uint256 enoughEnd = block.timestamp;
 ```
-## 5 Make 3 event parameters indexed when possible
+## [G-05] Make 3 event parameters indexed when possible
 It's the most gas efficient to make up to 3 event parameters indexed. If there are less than 3 parameters, you need to make all parameters indexed.
 
 - [DripsHub.sol#L93](https://github.com/code-423n4/2023-01-drips/blob/main/src/DripsHub.sol#L93)
@@ -114,7 +114,7 @@ The event is used in the function emitUserMetaData, this function is used multip
 
 The same extra indexed parameter can be applied to:
 - [Drips.sol#L153](https://github.com/code-423n4/2023-01-drips/blob/main/src/Drips.sol#L153) `DripsHub: setDrips()`
-## 6 Transfer erc20 immediately to Dripshub
+## [G-06] Transfer erc20 immediately to Dripshub
 - `Dripshub: give()` gas saved: 9449
 - `AddressDriver: give()` gas saved: 29439
 - `NFTDriver: give()` gas saved: 18936
@@ -145,7 +145,7 @@ When you call the `give()` function in the Address or NFTDriver. The erc20 token
     }
 ```
 setDrips need to be adjusted or you can create a seperate function for that.
-## 7 Transfer ERC20 immediately to the user
+## [G-07] Transfer ERC20 immediately to the user
 - `AddressDriver: collect()` gas saved: 12954
 - `NFTDriver: collect()` gas saved: 9158
 
@@ -173,14 +173,14 @@ The same thing can be done for the `collect()` function. Instead of transferring
 -       erc20.safeTransfer(transferTo, amt);
     }
 ```
-## 8 Use double if statements instead of &&
+## [G-08] Use double if statements instead of &&
 If the if statement has a logical AND and is not followed by an else statement, it can be replaced with 2 if statements.
 
 - [Drips.sol#L700](https://github.com/code-423n4/2023-01-drips/blob/main/src/Drips.sol#L700)
 - [Drips.sol#L709](https://github.com/code-423n4/2023-01-drips/blob/main/src/Drips.sol#L709)
 - [Drips.sol#L909](https://github.com/code-423n4/2023-01-drips/blob/main/src/Drips.sol#L909)
 - [Drips.sol#L929](https://github.com/code-423n4/2023-01-drips/blob/main/src/Drips.sol#L929)
-## Miscellaneous
+## [G-09] Miscellaneous
 ### Don't call a function when initializing an immutable variable
 Saves a little bit of deployment gas
 ```diff
