@@ -1,0 +1,8 @@
+{
+  "contest": 209,
+  "handle": "sinarette",
+  "risk": "3",
+  "title": "The splitting amount depends on the order of the receivers' userIDs, which could eventually lead to stealing splits",
+  "issueId": 108,
+  "issueUrl": "https://github.com/code-423n4/2023-01-drips-findings/issues/108"
+}
