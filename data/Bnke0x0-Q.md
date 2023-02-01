@@ -17,22 +17,8 @@ https://github.com/code-423n4/2023-01-drips/blob/main/src/NFTDriver.sol#L37 => '
 
 
 
-### [L02] `safeApprove()` is deprecated
 
-#### Impact
-[Deprecated](https://github.com/OpenZeppelin/openzeppelin-contracts/blob/bfff03c0d2a59bcd8e2ead1da9aed9edf0080d05/contracts/token/ERC20/utils/SafeERC20.sol#L38-L45) in favor of safeIncreaseAllowance() and safeDecreaseAllowance()
-#### Findings:
-
-
-https://github.com/code-423n4/2023-01-drips/blob/main/src/AddressDriver.sol#L174 => 'erc20.safeApprove(address(dripsHub), type(uint256).max);'
-https://github.com/code-423n4/2023-01-drips/blob/main/src/NFTDriver.sol#L289 => 'erc20.safeApprove(address(dripsHub), type(uint256).max);'
-
-
-
-
-
-
-### [L03] approve should be replaced with safeApprove or safeIncreaseAllowance() / safeDecreaseAllowance()
+### [L02] approve should be replaced with safeApprove or safeIncreaseAllowance() / safeDecreaseAllowance()
 
 #### Impact
 approve is subject to a known front-running attack. Consider using safeApprove instead:
@@ -45,7 +31,7 @@ https://github.com/code-423n4/2023-01-drips/blob/main/src/NFTDriver.sol#L250 => 
 
 
 
-### [L04] `_safeMint()` should be used rather than `_mint()` wherever possible
+### [L03] `_safeMint()` should be used rather than `_mint()` wherever possible
 
 #### Impact
 _mint() is discouraged in favor of _safeMint() which ensures that the recipient is either an EOA or implements IERC721Receiver. Both OpenZeppelin and solmate have versions of this function
@@ -58,7 +44,7 @@ https://github.com/code-423n4/2023-01-drips/blob/main/src/NFTDriver.sol#L68 => '
 
 
 
-### [L05] Unspecific Compiler Version Pragma
+### [L04] Unspecific Compiler Version Pragma
 
 #### Impact
 Avoid floating pragmas for non-library contracts.
@@ -85,7 +71,7 @@ https://github.com/code-423n4/2023-01-drips/blob/main/src/Splits.sol#L2 => 'prag
 
 
 
-### [L06] MISSING EVENT FOR CRITICAL PARAMETERS INIT AND CHANGE
+### [L05] MISSING EVENT FOR CRITICAL PARAMETERS INIT AND CHANGE
 
 #### Impact
 Avoid floating pragmas for non-library contracts.
@@ -171,25 +157,11 @@ https://github.com/code-423n4/2023-01-drips/blob/main/src/Drips.sol#L419 => 'uin
 
 
 
-### [N03] Event is missing `indexed` fields
-
-#### Impact
-Each event should use three indexed fields if there are three or more fields
-#### Findings:
-
-
-https://github.com/code-423n4/2023-01-drips/blob/main/src/Managed.sol#L25 => 'event PauserGranted(address indexed pauser, address admin);'
-https://github.com/code-423n4/2023-01-drips/blob/main/src/Managed.sol#L30 => 'event PauserRevoked(address indexed pauser, address admin);'
-https://github.com/code-423n4/2023-01-drips/blob/main/src/Splits.sol#L33 => 'event Collected(uint256 indexed userId, uint256 indexed assetId, uint128 collected);'
-https://github.com/code-423n4/2023-01-drips/blob/main/src/Splits.sol#L49 => 'event Collectable(uint256 indexed userId, uint256 indexed assetId, uint128 amt);'
-https://github.com/code-423n4/2023-01-drips/blob/main/src/Splits.sol#L71 => 'event SplitsReceiverSeen(bytes32 indexed receiversHash, uint256 indexed userId, uint32 weight);'
 
 
 
 
-
-
-### [N04] NC-library/interface files should use fixed compiler versions, not floating ones
+### [N03] NC-library/interface files should use fixed compiler versions, not floating ones
 
 
 #### Findings:
@@ -206,7 +178,7 @@ https://github.com/code-423n4/2023-01-drips/blob/main/src/Splits.sol#L2 => 'prag
 
 
 
-### [N05] USE OF BYTES.CONCAT() INSTEAD OF ABI.ENCODEPACKED()
+### [N04] USE OF BYTES.CONCAT() INSTEAD OF ABI.ENCODEPACKED()
 
 
 #### Findings:
@@ -217,7 +189,7 @@ https://github.com/code-423n4/2023-01-drips/blob/main/src/Caller.sol#L207 => 're
 
 
 
-### [N06] PRAGMA VERSION^0.8.17 VERSION TOO RECENT TO BE TRUSTED.
+### [N05] PRAGMA VERSION^0.8.17 VERSION TOO RECENT TO BE TRUSTED.
 
 #### Impact
 https://github.com/ethereum/solidity/blob/develop/Changelog.md
@@ -248,7 +220,7 @@ https://github.com/code-423n4/2023-01-drips/blob/main/src/NFTDriver.sol#L2 => 'p
 https://github.com/code-423n4/2023-01-drips/blob/main/src/Splits.sol#L2 => 'pragma solidity ^0.8.17;'
 
 
-### [N07] SHOWING THE ACTUAL VALUES OF NUMBERS IN NATSPEC COMMENTS MAKES CHECKING AND READING CODE EASIER
+### [N06] SHOWING THE ACTUAL VALUES OF NUMBERS IN NATSPEC COMMENTS MAKES CHECKING AND READING CODE EASIER
 
 
 #### Findings:
