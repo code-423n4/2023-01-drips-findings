@@ -1,0 +1,8 @@
+{
+  "contest": 209,
+  "handle": "mert_eren",
+  "risk": "2",
+  "title": "If contract is paused then payer's even if they want to cut payment they should pay receivers.",
+  "issueId": 100,
+  "issueUrl": "https://github.com/code-423n4/2023-01-drips-findings/issues/100"
+}
