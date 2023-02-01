@@ -1,31 +1,7 @@
 
 
-### [G01] `<array>.length` should not be looked up in every loop of a `for` loop
 
-#### Impact
-Even memory arrays incur the overhead of bit tests and bit shifts to 
-calculate the array length. Storage array length checks incur an extra 
-Gwarmaccess (100 gas) PER-LOOP.
-#### Findings:
-```
-2023-01-drips/src/Caller.sol::196 => for (uint256 i = 0; i < calls.length; i++) {
-2023-01-drips/src/Drips.sol::450 => for (uint256 i = 0; i < dripsHistory.length; i++) {
-2023-01-drips/src/Drips.sol::479 => for (uint256 idxCap = receivers.length; idx < idxCap;) {
-2023-01-drips/src/Drips.sol::490 => for (; idx < receivers.length; idx++) {
-2023-01-drips/src/Drips.sol::563 => for (uint256 i = 0; i < receivers.length; i++) {
-2023-01-drips/src/Drips.sol::664 => for (uint256 i = 0; i < newReceivers.length; i++) {
-2023-01-drips/src/Drips.sol::777 => for (uint256 i = 0; i < receivers.length; i++) {
-2023-01-drips/src/DripsHub.sol::613 => for (uint256 i = 0; i < userMetadata.length; i++) {
-2023-01-drips/src/ImmutableSplitsDriver.sol::61 => for (uint256 i = 0; i < receivers.length; i++) {
-2023-01-drips/src/Splits.sol::127 => for (uint256 i = 0; i < currReceivers.length; i++) {
-2023-01-drips/src/Splits.sol::158 => for (uint256 i = 0; i < currReceivers.length; i++) {
-2023-01-drips/src/Splits.sol::231 => for (uint256 i = 0; i < receivers.length; i++) {
-```
-
-
-
-
-### [G02] `++i/i++` should be `unchecked{++i}`/`unchecked{++i}` when it is not possible for them to overflow, as is the case when used in `for` and `while` loops
+### [G01] `++i/i++` should be `unchecked{++i}`/`unchecked{++i}` when it is not possible for them to overflow, as is the case when used in `for` and `while` loops
 
 
 #### Findings:
@@ -50,67 +26,10 @@ Gwarmaccess (100 gas) PER-LOOP.
 
 
 
-### [G03] `require()`/`revert()` strings longer than 32 bytes cost extra gas
-
-
-#### Findings:
-```
-2023-01-drips/src/Drips.sol::454 => require(dripsHash == 0, "Drips history entry with hash and receivers");
-2023-01-drips/src/Drips.sol::540 => require(timestamp >= state.updateTime, "Timestamp before last drips update");
-2023-01-drips/src/Splits.sol::239 => require(prevUserId < userId, "Splits receivers not sorted by user ID");
-```
 
 
 
-
-
-### [G04] It costs more gas to initialize variables to zero than to let the default of zero be applied
-
-
-#### Findings:
-```
-2023-01-drips/src/Caller.sol::196 => for (uint256 i = 0; i < calls.length; i++) {
-2023-01-drips/src/Drips.sol::358 => for (uint256 i = 0; i < squeezedNum; i++) {
-2023-01-drips/src/Drips.sol::450 => for (uint256 i = 0; i < dripsHistory.length; i++) {
-2023-01-drips/src/Drips.sol::563 => for (uint256 i = 0; i < receivers.length; i++) {
-2023-01-drips/src/Drips.sol::664 => for (uint256 i = 0; i < newReceivers.length; i++) {
-2023-01-drips/src/Drips.sol::745 => for (uint256 i = 0; i < configsLen; i++) {
-2023-01-drips/src/Drips.sol::777 => for (uint256 i = 0; i < receivers.length; i++) {
-2023-01-drips/src/DripsHub.sol::613 => for (uint256 i = 0; i < userMetadata.length; i++) {
-2023-01-drips/src/ImmutableSplitsDriver.sol::61 => for (uint256 i = 0; i < receivers.length; i++) {
-2023-01-drips/src/Splits.sol::127 => for (uint256 i = 0; i < currReceivers.length; i++) {
-2023-01-drips/src/Splits.sol::158 => for (uint256 i = 0; i < currReceivers.length; i++) {
-2023-01-drips/src/Splits.sol::231 => for (uint256 i = 0; i < receivers.length; i++) {
-```
-
-
-
-
-### [G05] `++i` costs less gas than `i++`, especially when it’s used in forloops (`--i`/`i--` too)
-
-
-#### Findings:
-```
-2023-01-drips/src/Caller.sol::196 => for (uint256 i = 0; i < calls.length; i++) {
-2023-01-drips/src/Drips.sol::247 => for (uint32 cycle = fromCycle; cycle < toCycle; cycle++) {
-2023-01-drips/src/Drips.sol::287 => for (uint32 cycle = fromCycle; cycle < toCycle; cycle++) {
-2023-01-drips/src/Drips.sol::358 => for (uint256 i = 0; i < squeezedNum; i++) {
-2023-01-drips/src/Drips.sol::422 => for (uint256 i = 1; i <= dripsHistory.length && i <= currCycleConfigs; i++) {
-2023-01-drips/src/Drips.sol::450 => for (uint256 i = 0; i < dripsHistory.length; i++) {
-2023-01-drips/src/Drips.sol::490 => for (; idx < receivers.length; idx++) {
-2023-01-drips/src/Drips.sol::563 => for (uint256 i = 0; i < receivers.length; i++) {
-2023-01-drips/src/Drips.sol::664 => for (uint256 i = 0; i < newReceivers.length; i++) {
-2023-01-drips/src/Drips.sol::745 => for (uint256 i = 0; i < configsLen; i++) {
-2023-01-drips/src/Drips.sol::777 => for (uint256 i = 0; i < receivers.length; i++) {
-2023-01-drips/src/DripsHub.sol::613 => for (uint256 i = 0; i < userMetadata.length; i++) {
-2023-01-drips/src/ImmutableSplitsDriver.sol::61 => for (uint256 i = 0; i < receivers.length; i++) {
-2023-01-drips/src/Splits.sol::127 => for (uint256 i = 0; i < currReceivers.length; i++) {
-2023-01-drips/src/Splits.sol::158 => for (uint256 i = 0; i < currReceivers.length; i++) {
-2023-01-drips/src/Splits.sol::231 => for (uint256 i = 0; i < receivers.length; i++) {
-```
-
-
-### [G06] Usage of `uints`/`ints` smaller than 32 bytes (256 bits) incurs overhead
+### [G02] Usage of `uints`/`ints` smaller than 32 bytes (256 bits) incurs overhead
 
 #### Impact
 > When using elements that are smaller than 32 bytes, your 
@@ -307,73 +226,10 @@ Use a larger size then downcast where needed
 
 
 
-### [G07] Use custom errors rather than `revert()`/`require()` strings to save deployment gas
-
-
-#### Findings:
-```
-2023-01-drips/src/Caller.sol::108 => require(_authorized[sender].add(user), "Address already is authorized");
-2023-01-drips/src/Caller.sol::116 => require(_authorized[sender].remove(user), "Address is not authorized");
-2023-01-drips/src/Caller.sol::149 => require(isAuthorized(sender, _msgSender()), "Not authorized");
-2023-01-drips/src/Caller.sol::173 => require(block.timestamp <= deadline, "Execution deadline expired");
-2023-01-drips/src/Caller.sol::181 => require(signer == sender, "Invalid signature");
-2023-01-drips/src/Drips.sol::220 => require(cycleSecs > 1, "Cycle length too low");
-2023-01-drips/src/Drips.sol::454 => require(dripsHash == 0, "Drips history entry with hash and receivers");
-2023-01-drips/src/Drips.sol::461 => require(historyHash == finalHistoryHash, "Invalid drips history");
-2023-01-drips/src/Drips.sol::540 => require(timestamp >= state.updateTime, "Timestamp before last drips update");
-2023-01-drips/src/Drips.sol::541 => require(_hashDrips(receivers) == state.dripsHash, "Invalid current drips list");
-2023-01-drips/src/Drips.sol::622 => require(_hashDrips(currReceivers) == state.dripsHash, "Invalid current drips list");
-2023-01-drips/src/Drips.sol::775 => require(receivers.length <= _MAX_DRIPS_RECEIVERS, "Too many drips receivers");
-2023-01-drips/src/Drips.sol::780 => require(_isOrdered(receivers[i - 1], receiver), "Receivers not sorted");
-2023-01-drips/src/Drips.sol::798 => require(amtPerSec != 0, "Drips receiver amtPerSec is zero");
-2023-01-drips/src/DripsHub.sol::125 => require(driverAddress(driverId) == msg.sender, "Callable only by the driver");
-2023-01-drips/src/DripsHub.sol::631 => require(totalBalances[erc20] + amt <= MAX_TOTAL_BALANCE, "Total balance too high");
-2023-01-drips/src/ImmutableSplitsDriver.sol::64 => require(weightSum == totalSplitsWeight, "Invalid total receivers weight");
-2023-01-drips/src/Managed.sol::47 => require(admin() == msg.sender, "Caller is not the admin");
-2023-01-drips/src/Managed.sol::61 => require(!paused(), "Contract paused");
-2023-01-drips/src/Managed.sol::67 => require(paused(), "Contract not paused");
-2023-01-drips/src/Managed.sol::91 => require(_managedStorage().pausers.add(pauser), "Address already is a pauser");
-2023-01-drips/src/Managed.sol::98 => require(_managedStorage().pausers.remove(pauser), "Address is not a pauser");
-2023-01-drips/src/Splits.sol::227 => require(receivers.length <= _MAX_SPLITS_RECEIVERS, "Too many splits receivers");
-2023-01-drips/src/Splits.sol::234 => require(weight != 0, "Splits receiver weight is zero");
-2023-01-drips/src/Splits.sol::238 => require(prevUserId != userId, "Duplicate splits receivers");
-2023-01-drips/src/Splits.sol::239 => require(prevUserId < userId, "Splits receivers not sorted by user ID");
-2023-01-drips/src/Splits.sol::244 => require(totalWeight <= _TOTAL_SPLITS_WEIGHT, "Splits weights sum too high");
-```
 
 
 
-
-### [G08] Functions guaranteed to revert when called by normal users can be marked `payable`
-
-#### Impact
-If a function modifier such as `onlyOwner` is used, the function will revert if a normal user tries to pay the function. Marking the function as `payable` will lower the gas cost for legitimate callers because the compiler will not include checks for whether a payment was provided.
-#### Findings:
-```
-2023-01-drips/src/Managed.sol::84 => function changeAdmin(address newAdmin) public onlyAdmin {
-2023-01-drips/src/Managed.sol::90 => function grantPauser(address pauser) public onlyAdmin {
-2023-01-drips/src/Managed.sol::97 => function revokePauser(address pauser) public onlyAdmin {
-2023-01-drips/src/Managed.sol::122 => function pause() public onlyAdminOrPauser whenNotPaused {
-2023-01-drips/src/Managed.sol::128 => function unpause() public onlyAdminOrPauser whenPaused {
-2023-01-drips/src/Managed.sol::151 => function _authorizeUpgrade(address /* newImplementation */ ) internal view override onlyAdmin {
-```
-
-
-
-
-
-### [G09] Bitshift for divide by 2
-
-#### Impact
-When multiplying or dividing by a power of two, it is cheaper to bitshift than to use standard math operations. There is a divide by 2 operations 
-#### Findings:
-```
-2023-01-drips/src/Drips.sol::480 => uint256 idxMid = (idx + idxCap) / 2;
-2023-01-drips/src/Drips.sol::717 => uint256 end = (enoughEnd + notEnoughEnd) / 2;
-```
-
-
-### [G10] Use `calldata` instead of `memory` for function parameters
+### [G03] Use `calldata` instead of `memory` for function parameters
 
 #### Impact
 Use calldata instead of memory for function parameters. Having function arguments use calldata instead of memory can save gas.
@@ -387,7 +243,7 @@ Change function arguments from memory to calldata.
 
 
 
-### [G11] Amounts should be checked for 0 before calling a transfer
+### [G04] Amounts should be checked for 0 before calling a transfer
 
 #### Impact
 Checking non-zero transfer values can avoid an expensive external call and save gas.
@@ -406,7 +262,7 @@ While this is done in some places, it’s not consistently done in the solution.
 
 
 
-### [G12] Multiple `address` mappings can be combined into a single `mapping` of an `address` to a `struct`, where appropriate
+### [G05] Multiple `address` mappings can be combined into a single `mapping` of an `address` to a `struct`, where appropriate
 
 #### Impact
 Saves a storage slot for the mapping. Depending on the circumstances 
@@ -427,26 +283,9 @@ Reads and subsequent writes can also be cheaper when a function requires
 
 
 
-### [G13] Using `private` rather than `public` for constants, saves gas
-
-#### Impact
-If needed, the value can be read from the verified contract source 
-code.
-#### Findings:
-```
-2023-01-drips/src/DripsHub.sol::56 => uint256 public constant MAX_DRIPS_RECEIVERS = _MAX_DRIPS_RECEIVERS;
-2023-01-drips/src/DripsHub.sol::58 => uint8 public constant AMT_PER_SEC_EXTRA_DECIMALS = _AMT_PER_SEC_EXTRA_DECIMALS;
-2023-01-drips/src/DripsHub.sol::60 => uint256 public constant AMT_PER_SEC_MULTIPLIER = _AMT_PER_SEC_MULTIPLIER;
-2023-01-drips/src/DripsHub.sol::62 => uint256 public constant MAX_SPLITS_RECEIVERS = _MAX_SPLITS_RECEIVERS;
-2023-01-drips/src/DripsHub.sol::64 => uint32 public constant TOTAL_SPLITS_WEIGHT = _TOTAL_SPLITS_WEIGHT;
-2023-01-drips/src/DripsHub.sol::67 => uint256 public constant DRIVER_ID_OFFSET = 224;
-2023-01-drips/src/DripsHub.sol::70 => uint256 public constant MAX_TOTAL_BALANCE = _MAX_TOTAL_DRIPS_BALANCE;
-```
 
 
-
-
-### [G14] `abi.encode()` is less efficient than abi.encodePacked()
+### [G06] `abi.encode()` is less efficient than abi.encodePacked()
 
 
 
@@ -457,20 +296,5 @@ code.
 2023-01-drips/src/Drips.sol::858 => return keccak256(abi.encode(oldDripsHistoryHash, dripsHash, updateTime, maxEnd));
 2023-01-drips/src/Splits.sol::278 => return keccak256(abi.encode(receivers));
 ```
-
-
-
-
-### [G15] Multiplication/division by two should use bit shifting
-
-#### Impact
-<x> * 2 is equivalent to <x> << 1 and <x> / 2 is the same as <x> >> 1. The MUL and DIV opcodes cost 5 gas, whereas SHL and SHR only cost 3 gas
-#### Findings:
-```
-2023-01-drips/src/Drips.sol::480 => uint256 idxMid = (idx + idxCap) / 2;
-2023-01-drips/src/Drips.sol::717 => uint256 end = (enoughEnd + notEnoughEnd) / 2;
-```
-
-
 
 
