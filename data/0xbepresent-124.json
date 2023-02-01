@@ -1,0 +1,8 @@
+{
+  "contest": 209,
+  "handle": "0xbepresent",
+  "risk": "2",
+  "title": "An authorized user can call authorize()/unauthorize() functions via ```CallAs()``` function ",
+  "issueId": 124,
+  "issueUrl": "https://github.com/code-423n4/2023-01-drips-findings/issues/124"
+}
