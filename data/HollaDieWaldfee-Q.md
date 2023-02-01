@@ -64,6 +64,8 @@ Many other protocols may chose not to integrate with Drips because of this limit
 
 A protocol that wants to make sure it can operate for as long as possible without a built-in "kill date" cannot use the Drips protocol.  
 
+When the `type(uint32).max` timestamp is reached, funds are stuck in the `Drips` contract. `Drips` can no longer be received even when the time at which they were streamed was before this timestamp.  
+
 ## [L-05] `name` and `symbol` of `NFTDriver` cannot be accessed via Proxy
 The OpenZeppelin `ERC721` contract which `NFTDriver` inherits stores `_name` and `_symbol` in storage ([https://github.com/OpenZeppelin/openzeppelin-contracts/blob/501a78e13426ec10249e44386239c74783478dd0/contracts/token/ERC721/ERC721.sol#L24-L27](https://github.com/OpenZeppelin/openzeppelin-contracts/blob/501a78e13426ec10249e44386239c74783478dd0/contracts/token/ERC721/ERC721.sol#L24-L27)).  
 
