@@ -89,6 +89,7 @@ Vulnerability details
 
 For reference, see https://github.com/ethereum/solidity/blob/develop/Changelog.md
 
+0.8.18 (2023-02-01)
 0.8.17 (2022-09-08)
 0.8.16 (2022-08-08)
 0.8.15 (2022-06-15)
@@ -123,5 +124,30 @@ Manual Analysis
 ### Recommended Mitigation Steps
 
 Rather than using abi.encodePacked for appending bytes, use bytes.concat() 
+
+
+# 6: GENERATE PERFECT CODE HEADERS EVERY TIME
+
+Vulnerability details
+
+### Context:
+
+It is recommended to use a header for Solidity code layout and readability.
+
+For reference, see https://github.com/transmissions11/headers
+
+## Proof of Concept
+
+All contracts in scope
+
+## Tools Used
+
+Manual Analysis
+
+## Recommended Mitigation Steps
+
+/*//////////////////////////////////////////////////////////////
+                           TESTING 123
+//////////////////////////////////////////////////////////////*/
 
 
