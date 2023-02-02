@@ -1,0 +1,8 @@
+{
+  "contest": 209,
+  "handle": "tsvetanovv",
+  "risk": "2",
+  "title": "ERC20 transfer zero amount can be reverted",
+  "issueId": 158,
+  "issueUrl": "https://github.com/code-423n4/2023-01-drips-findings/issues/158"
+}
