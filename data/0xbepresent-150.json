@@ -1,0 +1,8 @@
+{
+  "contest": 209,
+  "handle": "0xbepresent",
+  "risk": "3",
+  "title": "```setSplits()``` function distributes the splittable amount wrongly if the receivers list has the same userId who assigned the split.",
+  "issueId": 150,
+  "issueUrl": "https://github.com/code-423n4/2023-01-drips-findings/issues/150"
+}
