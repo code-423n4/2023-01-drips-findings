@@ -202,3 +202,22 @@ Mitigation: add NatSpec to ``createSplits`` that a driver must register the addr
 
 QA12. ``currCycleConfigs`` is a bit confusing. It is actually always going to be 1 + the number of changes of configs in the current cycle. Maybe a name like ``CurrCycleConfigsPlusOne`` would be better. 
 
+QA13: Replay attack and signature check bypassing attack
+[https://github.com/code-423n4/2023-01-drips/blob/9fd776b50f4be23ca038b1d0426e63a69c7a511d/src/Caller.sol#L164-L183](https://github.com/code-423n4/2023-01-drips/blob/9fd776b50f4be23ca038b1d0426e63a69c7a511d/src/Caller.sol#L164-L183)
+
+The signature in  ``callSigned*(`` can be replayed in another contract and/or blockchain since the signature does not sign the contract address and blockchain ID. Therefore, if the contract is deployed on another address and/or another chain, the same signature can be reused to have a replay attack.
+
+Recommendation: Consider full comply with [EIP-712](https://eips.ethereum.org/EIPS/eip-712) for signing a signature so that both contract address and blockchain id will be signed, not just the signature of the function ``callSigned()``. 
+
+The signature check can also be bypassed when ``sender``'s address is set to zero, this is because the ``recover`` function will return zero when a signature is invalid so the following checked will be bypassed when ``sender = 0``.
+```javascript
+  address signer = ECDSA.recover(_hashTypedDataV4(executeHash), r, sv);
+        require(signer == sender, "Invalid signature");
+```
+
+Mitigation: make sure the value returned by ``recover`` is not zero, in other worse, the signature is valid. 
+```diff
+  address signer = ECDSA.recover(_hashTypedDataV4(executeHash), r, sv);
+-        require(signer == sender, "Invalid signature");
++       require(signer != 0 && signer == sender, "Invalid signature");
+```
