@@ -11,4 +11,4 @@ Manual Review
 
 ## Recommended Mitigation Steps
 
-The best practice is to remove the mapping slot and replace it with the last element.
+The best practice is to`pop` the mapping slot.
