@@ -1,0 +1,8 @@
+{
+  "contest": 209,
+  "handle": "paspe",
+  "risk": "2",
+  "title": "Casting of variable from upper to lower bound can cause loss of the expected number",
+  "issueId": 136,
+  "issueUrl": "https://github.com/code-423n4/2023-01-drips-findings/issues/136"
+}
