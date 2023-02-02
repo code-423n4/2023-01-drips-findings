@@ -11,4 +11,4 @@ Manual Review
 
 ## Recommended Mitigation Steps
 
-Get the length of the mapping and take the last element and replace it.
+The best practice is to remove the mapping slot and replace it with the last element.
