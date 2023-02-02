@@ -1,0 +1,8 @@
+{
+  "contest": 209,
+  "handle": "tsvetanovv",
+  "risk": "2",
+  "title": "It is possible Reentrancy in `safeMint` function",
+  "issueId": 157,
+  "issueUrl": "https://github.com/code-423n4/2023-01-drips-findings/issues/157"
+}
