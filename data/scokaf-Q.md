@@ -105,3 +105,23 @@ Manual Analysis
 ### Recommended Mitigation Steps
 
 Use a non-legacy and more battle-tested version consider using 0.8.10
+
+# 5: USE OF BYTES.CONCAT() INSTEAD OF ABI.ENCODEPACKED()
+
+###Context:
+
+Since version 0.8.4 for appending bytes, bytes.concat() can be used instead of abi.encodePacked(,)
+
+## Proof of Concept
+
+https://github.com/code-423n4/2023-01-drips/blob/9fd776b50f4be23ca038b1d0426e63a69c7a511d/src/Caller.sol#L207 
+
+## Tools Used
+
+Manual Analysis
+
+### Recommended Mitigation Steps
+
+Rather than using abi.encodePacked for appending bytes, use bytes.concat() 
+
+
