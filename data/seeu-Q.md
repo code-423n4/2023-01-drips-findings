@@ -47,7 +47,7 @@ To increase explicitness and readability, take into account introducing and util
 - [Unnamed return parameters | Opyn Bull Strategy Contracts Audit](https://blog.openzeppelin.com/opyn-bull-strategy-contracts-audit/#unnamed-return-parameters)
 
 
-## [L-3] Pragma Version 0.8.17 too recent to be trusted
+## [L-03] Pragma Version 0.8.17 too recent to be trusted
 
 ### Description
 
@@ -68,3 +68,21 @@ In recert versions, unexpected problems might be reported. Use a more robust, no
 
 - [Ethereum Solidity changelog](https://github.com/ethereum/solidity/blob/develop/Changelog.md)
 - [[N-09] PRAGMA VERSION^0.8.17 VERSION TOO RECENT TO BE TRUSTED.](https://code4rena.com/reports/2022-12-caviar/#n-09-pragma-version0817--version-too-recent-to-be-trusted)
+
+
+## [L-04] Use _safeMint instead of _mint
+
+### Description
+
+It is advisable to use `_safeMint` instead of the method `_mint`.
+
+### Findings
+
+- [NFTDriver.sol#L68](https://github.com/code-423n4/2023-01-drips/blob/main/src/NFTDriver.sol#L68)
+```Solidity
+_mint(to, tokenId);
+```
+
+### References
+
+- [[L-06] _SAFEMINT() SHOULD BE USED RATHER THAN _MINT() WHEREVER POSSIBLE](https://code4rena.com/reports/2022-04-backed/#l-06-_safemint-should-be-used-rather-than-_mint-wherever-possible)
