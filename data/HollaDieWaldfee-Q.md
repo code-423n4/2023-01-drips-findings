@@ -7,6 +7,7 @@
 | L-03      | Check that driver address is not zero address | DripsHub.sol | 2 |
 | L-04      | Application will be unusable by the year 2106 | Drips.sol | 1 |
 | L-05      | `name` and `symbol` of `NFTDriver` cannot be accessed via Proxy | NFTDriver.sol | 1 |
+| L-06      | Check for minimum `amountPerSec` such that amount per cycle is not zero | Drips.sol | 1 |
 | N-01      | Remove unnecessary imports | - | 3 |
 | N-02      | Remove unnecessary `_MAX_TOTAL_SPLITS_BALANCE` variable | Splits.sol | 1 |
 | N-03      | `require` statement is redundant | Splits.sol | 1 |
@@ -74,6 +75,17 @@ Also, `_name` and `_symbol` are set in the constructor of the `ERC721` contract 
 Thereby, when `name` and `symbol` are queried from the Proxy, empty bytes are returned.  
 
 This is bad because the Proxy contract should obviously return the `name` and `symbol` of the `NFTDriver`. This can be solved by overriding the `name` and `symbol` functions in the `NFTDriver` contract to just return "DripsHub identity" and "DHI" without needing to read from any variable.  
+
+## [L-06] Check for minimum `amountPerSec` such that amount per cycle is not zero
+Currently, the `amountPerSec` of a `DripsReceiver` cannot be zero: [https://github.com/code-423n4/2023-01-drips/blob/9fd776b50f4be23ca038b1d0426e63a69c7a511d/src/Drips.sol#L798](https://github.com/code-423n4/2023-01-drips/blob/9fd776b50f4be23ca038b1d0426e63a69c7a511d/src/Drips.sol#L798)  
+
+However `amountPerSec` can have a non-zero value and the amount of funds streamed is still zero.  
+
+E.g. the length of a cycle can be 10 seconds and `amountPerSec` can be 1/11th of one whole unit. In this case the actual amount of funds streamed is still zero.  
+
+Therefore I propose that `amountPerSec` is required to be a value that ensures that funds are streamed.  
+
+This can be achieved by calculating an `immutable` `amountPerSecMin` variable in the constructor which depends on the `cycleSecs`.  
 
 ## [N-01] Remove unnecessary imports
 Solidity files should only import the dependencies that are necessary to make the code cleaner and make it easier to understand.  
