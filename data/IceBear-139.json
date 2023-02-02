@@ -1,0 +1,8 @@
+{
+  "contest": 209,
+  "handle": "IceBear",
+  "risk": "3",
+  "title": "[H-01] Reentrancy attack is possible when using ERC777 tokens in DripsHub",
+  "issueId": 139,
+  "issueUrl": "https://github.com/code-423n4/2023-01-drips-findings/issues/139"
+}
