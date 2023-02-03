@@ -1,0 +1,8 @@
+{
+  "contest": 209,
+  "handle": "ddimitrov22",
+  "risk": "3",
+  "title": "Potential DOS in Contract Inheriting UUPSUpgradeable.sol",
+  "issueId": 247,
+  "issueUrl": "https://github.com/code-423n4/2023-01-drips-findings/issues/247"
+}
