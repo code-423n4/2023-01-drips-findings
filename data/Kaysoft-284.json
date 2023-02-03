@@ -1,0 +1,8 @@
+{
+  "contest": 209,
+  "handle": "Kaysoft",
+  "risk": "3",
+  "title": "Lack of `nonReentrant` modifier when using `_safeMint` function",
+  "issueId": 284,
+  "issueUrl": "https://github.com/code-423n4/2023-01-drips-findings/issues/284"
+}
