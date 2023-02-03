@@ -1,0 +1,8 @@
+{
+  "contest": 209,
+  "handle": "rbserver",
+  "risk": "3",
+  "title": "Anyone can call the `DripsHub.split` function to frontrun the `DripsHub.setSplits` function call of the trusted user who owns the splittable funds",
+  "issueId": 201,
+  "issueUrl": "https://github.com/code-423n4/2023-01-drips-findings/issues/201"
+}
