@@ -1,0 +1,8 @@
+{
+  "contest": 209,
+  "handle": "berndartmueller",
+  "risk": "2",
+  "title": "Drips sender can prevent receiver from squeezing by spamming the drips history",
+  "issueId": 274,
+  "issueUrl": "https://github.com/code-423n4/2023-01-drips-findings/issues/274"
+}
