@@ -11,8 +11,10 @@
 |[L-07]|Loss of precision due to rounding| 1 |
 |[L-08]|Some events are missing `msg.sender` parameters| 1 |
 |[L-09]|Need Fuzzing test|  |
+|[L-10]|Using both `mint` and `safeMint` method at the same time is not the right way for security |  |
 
-Total 9 issues
+
+Total 10 issues
 
 
 ### Non-Critical Issues List
@@ -350,6 +352,48 @@ As Alberto Cuesta Canada said:
 _Fuzzing is not easy, the tools are rough, and the math is hard, but it is worth it. Fuzzing gives me a level of confidence in my smart contracts that I didn’t have before. Relying just on unit testing anymore and poking around in a testnet seems reckless now._
 
 https://medium.com/coinmonks/smart-contract-fuzzing-d9b88e0b0a05
+
+
+### [L-10] Using both `mint` and `safeMint` method at the same time is not the right way for security
+
+For all battle-tested projects, either `mint` or `safeMint` patterns are preferred, this is a design decision; It is evaluated in terms of security concerns and gas optimization, but using both at the same time causes confusion, one of them should be chosen as best practice.
+
+In case of using `mint`, if msg.sender is contract, a faulty contract may be sent without supporting NFT purchase.
+
+```solidity
+src/NFTDriver.sol:
+  62:     function mint(address to, UserMetadata[] calldata userMetadata)
+  63:         public
+  64:         whenNotPaused
+  65:         returns (uint256 tokenId)
+  66:     {
+  67:         tokenId = _registerTokenId();
+  68:         _mint(to, tokenId);
+  69:         if (userMetadata.length > 0) dripsHub.emitUserMetadata(tokenId, userMetadata);
+  70:     }
+  71: 
+
+
+
+  79:     function safeMint(address to, UserMetadata[] calldata userMetadata)
+  80:         public
+  81:         whenNotPaused
+  82:         returns (uint256 tokenId)
+  83:     {
+  84:         tokenId = _registerTokenId();
+  85:         _safeMint(to, tokenId);
+  86:         if (userMetadata.length > 0) dripsHub.emitUserMetadata(tokenId, userMetadata);
+  87:     }
+  88 
+
+
+```
+
+**Recommendation:**
+Use only `safeMint`
+
+
+
 
 ### [N-01] Implement some type of version counter that will be incremented automatically for contract upgrades
 
