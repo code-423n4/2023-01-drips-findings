@@ -1,10 +1,8 @@
-G1. Using unchecked for these blocks can save gas. Due to a previous check or the property of the contracts, underflow/overflow is impossible for these blocks.
-
-G2. These checks can be eliminated to save gas since they will be checked again in later part of the execution. 
+G1. These checks can be eliminated to save gas since they will be checked again in later part of the execution. 
 a) https://github.com/code-423n4/2023-01-drips/blob/9fd776b50f4be23ca038b1d0426e63a69c7a511d/src/Drips.sol#L622
 
 
-G1. The ``_drippedAmt()`` calculates amount in terms of both ``cycleSecs`` and ``amtPerSec``. It first calculates the ``endedCycles`` and then make adjustment on amount on both ends.  We can save gas by calculating directly on seconds alone; see below.
+G2. The ``_drippedAmt()`` calculates amount in terms of both ``cycleSecs`` and ``amtPerSec``. It first calculates the ``endedCycles`` and then make adjustment on amount on both ends.  We can save gas by calculating directly on seconds alone; see below.
 
 https://github.com/code-423n4/2023-01-drips/blob/9fd776b50f4be23ca038b1d0426e63a69c7a511d/src/Drips.sol#L1093-L1115
 
@@ -119,3 +117,28 @@ if(receivedAmt != 0){
             }
 }
 ```
+G6. We can cache the result of function call ``_currCycleStart()`` to save gas; it is used three times below.
+
+
+[https://github.com/code-423n4/2023-01-drips/blob/9fd776b50f4be23ca038b1d0426e63a69c7a511d/src/Drips.sol#L410-L426](https://github.com/code-423n4/2023-01-drips/blob/9fd776b50f4be23ca038b1d0426e63a69c7a511d/src/Drips.sol#L410-L426)
+```
+       DripsState storage sender = _dripsStorage().states[assetId][senderId];
+            historyHashes = _verifyDripsHistory(historyHash, dripsHistory, sender.dripsHistoryHash);
+            // If the last update was not in the current cycle,
+            // there's only the single latest history entry to squeeze in the current cycle.
+            currCycleConfigs = 1;
+            // slither-disable-next-line timestamp
+            if (sender.updateTime >= _currCycleStart()) currCycleConfigs = sender.currCycleConfigs;
+        }
+        squeezedRevIdxs = new uint256[](dripsHistory.length);
+        uint32[2 ** 32] storage nextSqueezed =
+            _dripsStorage().states[assetId][userId].nextSqueezed[senderId];
+        uint32 squeezeEndCap = _currTimestamp();
+        for (uint256 i = 1; i <= dripsHistory.length && i <= currCycleConfigs; i++) {
+            DripsHistory memory drips = dripsHistory[dripsHistory.length - i];
+            if (drips.receivers.length != 0) {
+                uint32 squeezeStartCap = nextSqueezed[currCycleConfigs - i];
+                if (squeezeStartCap < _currCycleStart()) squeezeStartCap = _currCycleStart();
+```
+
+
