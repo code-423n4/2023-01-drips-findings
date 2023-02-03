@@ -12,3 +12,16 @@ constructor(DripsHub _dripsHub, address forwarder, uint32 _driverId)
         driverId = _driverId;
     }
 ```
+
+Setting up state storage withou checking the parameter for `address(0)`
+
+[`DripsHub.sol#L134`](https://github.com/code-423n4/2023-01-drips/blob/9fd776b50f4be23ca038b1d0426e63a69c7a511d/src/DripsHub.sol#L134)
+
+```solidity=
+    function registerDriver(address driverAddr) public whenNotPaused returns (uint32 driverId) {
+        DripsHubStorage storage dripsHubStorage = _dripsHubStorage();
+        driverId = dripsHubStorage.nextDriverId++;
+        dripsHubStorage.driverAddresses[driverId] = driverAddr;
+        emit DriverRegistered(driverId, driverAddr);
+    }
+```
