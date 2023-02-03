@@ -1,0 +1,8 @@
+{
+  "contest": 209,
+  "handle": "fs0c",
+  "risk": "2",
+  "title": "Small precision loss in splits functionality can lead to unequal distribution of funds between users with same splitsWeight.",
+  "issueId": 182,
+  "issueUrl": "https://github.com/code-423n4/2023-01-drips-findings/issues/182"
+}
