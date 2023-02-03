@@ -7,4 +7,20 @@ Here are some of the instances entailed:
 
 [File: Drips.sol#L49-L97](https://github.com/code-423n4/2023-01-drips/blob/main/src/Drips.sol#L49-L97)
 
+## Solidity's Style Guide on contract layout
+According to Solidity's Style Guide below:
+
+https://docs.soliditylang.org/en/v0.8.17/style-guide.html
+
+In order to help readers identify which functions they can call, and find the constructor and fallback definitions more easily, functions should be grouped according to their visibility and ordered in the following manner:
+
+constructor, receive function (if exists), fallback function (if exists), external, public, internal, private
+
+And, within a grouping, place the view and pure functions last.
+
+Additionally, inside each contract, library or interface, use the following order:
+
+type declarations, state variables, events, modifiers, functions
+
+Consider adhering to the above guidelines for all contract instances entailed.
 
