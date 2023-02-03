@@ -12,9 +12,9 @@
 |[L-08]|Some events are missing `msg.sender` parameters| 1 |
 |[L-09]|Need Fuzzing test|  |
 |[L-10]|Using both `mint` and `safeMint` method at the same time is not the right way for security |  |
+|[L-11]|Cross-chain replay attacks are possible with  `callSigned` | 1 |
 
-
-Total 10 issues
+Total 11 issues
 
 
 ### Non-Critical Issues List
@@ -393,6 +393,61 @@ src/NFTDriver.sol:
 Use only `safeMint`
 
 
+### [L-11] Cross-chain replay attacks are possible with  `callSigned`
+
+https://github.com/code-423n4/2023-01-drips/blob/main/src/Caller.sol#L164-L183
+
+If a user does a callSigned() using the wrong network, an attacker can replay the action on the correct chain, and steal the funds a-la the wintermute gnosis safe attack, where the attacker can create the same address that the user tried to, and steal the funds from there
+https://mirror.xyz/0xbuidlerdao.eth/lOE5VN-BHI0olGOXe27F0auviIuoSlnou_9t3XRJseY
+
+
+There is no chain.id in the data
+
+```solidity
+src/Caller.sol:
+  174          uint256 currNonce = nonce[sender]++;
+  175:         bytes32 executeHash = keccak256(
+  176:             abi.encode(
+  177:                 callSignedTypeHash, sender, to, keccak256(data), msg.value, currNonce, deadline
+  178:             )
+  179:         );
+
+```
+
+
+
+```solidity
+function callSigned(
+        address sender,
+        address to,
+        bytes memory data,
+        uint256 deadline,
+        bytes32 r,
+        bytes32 sv
+    ) public payable returns (bytes memory returnData) {
+        // slither-disable-next-line timestamp
+        require(block.timestamp <= deadline, "Execution deadline expired");
+        uint256 currNonce = nonce[sender]++;
+        bytes32 executeHash = keccak256(
+            abi.encode(
+                callSignedTypeHash, sender, to, keccak256(data), msg.value, currNonce, deadline
+            )
+        );
+        address signer = ECDSA.recover(_hashTypedDataV4(executeHash), r, sv);
+        require(signer == sender, "Invalid signature");
+        return _call(sender, to, data, msg.value);
+    }
+
+
+```
+
+Similar issue from Harpieio;
+https://github.com/Harpieio/contracts/pull/4/commits/de24a50349ec014163180ba60b5305098f42eb14
+
+ p.s : I couldn't write a POC because I didn't have enough time, so I entred in as a QA
+
+### Recommended Mitigation Steps
+Include the chain.id in keccak256
 
 
 ### [N-01] Implement some type of version counter that will be incremented automatically for contract upgrades
