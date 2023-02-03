@@ -1,0 +1,8 @@
+{
+  "contest": 209,
+  "handle": "martin",
+  "risk": "2",
+  "title": "[M-01] `emitUserMetadata` function may fail due to exceed gas limit",
+  "issueId": 210,
+  "issueUrl": "https://github.com/code-423n4/2023-01-drips-findings/issues/210"
+}
