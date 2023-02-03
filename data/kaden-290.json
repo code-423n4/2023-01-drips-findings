@@ -1,0 +1,8 @@
+{
+  "contest": 209,
+  "handle": "kaden",
+  "risk": "2",
+  "title": "`Caller.callBatched` doesn't enforce `msg.value` is equal to sum of call values",
+  "issueId": 290,
+  "issueUrl": "https://github.com/code-423n4/2023-01-drips-findings/issues/290"
+}
