@@ -1,5 +1,7 @@
 ###  No same value input control
 ```
+Managed.sol
+
  function changeAdmin(address newAdmin) public onlyAdmin {
         _changeAdmin(newAdmin);
     }
@@ -12,6 +14,7 @@ Add code like this:
 ### Use Two-Step Transfer Pattern for Access Controls
 
 ```
+Managed.sol
  function changeAdmin(address newAdmin) public onlyAdmin {
         _changeAdmin(newAdmin);
     }
