@@ -1,0 +1,8 @@
+{
+  "contest": 209,
+  "handle": "chaduke",
+  "risk": "2",
+  "title": "_squeezeDrips() passed the amount argument in place of  amtPerSec for the _addDeltaRange, causing either underflow or higher future dripping speed",
+  "issueId": 273,
+  "issueUrl": "https://github.com/code-423n4/2023-01-drips-findings/issues/273"
+}
