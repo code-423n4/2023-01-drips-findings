@@ -1,4 +1,4 @@
-QA3. It is advised to follow the common practice: to choose a slot that has no KNOWN preimage. It is much easier to find a second preimage if we already know the first preimage. 
+QA1. It is advised to follow the common practice: to choose a slot that has no KNOWN preimage. It is much easier to find a second preimage if we already know the first preimage. 
  
 https://github.com/code-423n4/2023-01-drips/blob/9fd776b50f4be23ca038b1d0426e63a69c7a511d/src/DripsHub.sol#L72
 
@@ -9,7 +9,7 @@ Add -1 to avoid known preimage.
 bytes32 private immutable _dripsHubStorageSlot = _erc1967Slot("eip1967.dripsHub.storage") - 1;
 ```
 
-QA4. If a driver set the wrong (possibly inaccessible) ``newDriverAddr``, then he can will lose his driver's privilege forever. 
+QA2. If a driver set the wrong (possibly inaccessible) ``newDriverAddr``, then he can will lose his driver's privilege forever. 
 
 https://github.com/code-423n4/2023-01-drips/blob/9fd776b50f4be23ca038b1d0426e63a69c7a511d/src/DripsHub.sol#L152-L156
 ```
@@ -23,13 +23,13 @@ https://github.com/code-423n4/2023-01-drips/blob/9fd776b50f4be23ca038b1d0426e63a
 Mitigation: This is similar to the change of the owner of a contract. We need to  follow a two-step procedure: 1) first set the new pending address; 2) use the new pending address to accept the change to the final new driver address. 
 
 
-QA5. It is important to emit events when critical state variables are changed by some functions. 
+QA3. It is important to emit events when critical state variables are changed by some functions. 
 
 a) https://github.com/code-423n4/2023-01-drips/blob/9fd776b50f4be23ca038b1d0426e63a69c7a511d/src/DripsHub.sol#L629-L637
 
 
 
-QA6. [_addDeltaRange()](https://github.com/code-423n4/2023-01-drips/blob/9fd776b50f4be23ca038b1d0426e63a69c7a511d/src/Drips.sol#L1020-L1030) fails to check the input range is valid. 
+QA4. [_addDeltaRange()](https://github.com/code-423n4/2023-01-drips/blob/9fd776b50f4be23ca038b1d0426e63a69c7a511d/src/Drips.sol#L1020-L1030) fails to check the input range is valid. 
 One caller [_updateReceiverStates()](https://github.com/code-423n4/2023-01-drips/blob/9fd776b50f4be23ca038b1d0426e63a69c7a511d/src/Drips.sol#L872-L965) forgot to check this and possibly pass invalid ranges to this function, causing a chaos to the system.
 
 1) The following code does not check that ``start <= end`` and even when ``start > end``, it still performs the update. 
@@ -74,7 +74,7 @@ function _addDeltaRange(DripsState storage state, uint32 start, uint32 end, int2
     }
 ```
 
-QA7. False emit is possible here. 
+QA5. False emit is possible here. 
 
 https://github.com/code-423n4/2023-01-drips/blob/9fd776b50f4be23ca038b1d0426e63a69c7a511d/src/Splits.sol#L215
 ```
@@ -105,7 +105,7 @@ https://github.com/code-423n4/2023-01-drips/blob/9fd776b50f4be23ca038b1d0426e63a
 
 We need to check whether the driver's new address is the same as the old one. 
 
-QA7. ``DripsHub`` and ``ImmutableSplitDriver`` have a serious problem for the implementation of UUPSUpgradeable:
+QA6. ``DripsHub`` and ``ImmutableSplitDriver`` have a serious problem for the implementation of UUPSUpgradeable:
 1) There is no ``Initialize()`` function in the implementation of ``Driphub and ``Managed`` and ``ImmutableSplitDriver``. The constructors do not initialize the context for the proxy. ``Initialize()`` does.  For example, there is no way to initialize ``_cycleSecs``, ``_dripsStorageSlot``, ``_splitsStorageSlot`` for ``DripsHub`` from the proxy. There is no way to initialize ``dripsHub``,   ``driverId``,  ``totalSplitsWeight`` for ``ImmutableSplitDriver`` from the proxy either.
  
 ```
@@ -135,7 +135,7 @@ Mitigation:
 
 2)  include ``_disableInitializers();`` in the constructor.
 
-QA8. It is advised that all constants should be defined in one file:
+QA7. It is advised that all constants should be defined in one file:
 ```javascript
   uint256 public constant MAX_DRIPS_RECEIVERS = _MAX_DRIPS_RECEIVERS;
     /// @notice The additional decimals for all amtPerSec values.
@@ -171,15 +171,15 @@ uint256 internal constant _MAX_SPLITS_RECEIVERS = 200;
     uint256 internal constant _MAX_TOTAL_DRIPS_BALANCE = uint128(type(int128).max);
 ```
 
-QA9. Use a two-step ownership transfer procedure ``safeTransferOwnership`` instead of a one-step admin changing function. Changing admin in one step is risky: if the new address is a wrong input by mistake, we will lose all the privileges of the owner. 
+QA8. Use a two-step ownership transfer procedure ``safeTransferOwnership`` instead of a one-step admin changing function. Changing admin in one step is risky: if the new address is a wrong input by mistake, we will lose all the privileges of the owner. 
 
 Recommendation:  Use OpenZeppelin's Ownable2Step. https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/access/Ownable2Step.sol
 
-QA10. Use a two-step registration procedure to register a new address to avoid spamming and input mistake: 
+QA9. Use a two-step registration procedure to register a new address to avoid spamming and input mistake: 
 1) First step is to propose the new address; 2) use the new address to accept the registration. 
 https://github.com/code-423n4/2023-01-drips/blob/9fd776b50f4be23ca038b1d0426e63a69c7a511d/src/DripsHub.sol#L134-L139
 
-QA11. Unless a driver sets the new address to the address of contract ``ImmutableSplitsDriver``, otherwise the call of ``ImmutableSplitsDriver.createSplits()`` will always fail. This needs to be well documented. 
+QA10. Unless a driver sets the new address to the address of contract ``ImmutableSplitsDriver``, otherwise the call of ``ImmutableSplitsDriver.createSplits()`` will always fail. This needs to be well documented. 
 
 1) When a user calls the [ImmutableSplitsDriver.createSplits()](https://github.com/code-423n4/2023-01-drips/blob/9fd776b50f4be23ca038b1d0426e63a69c7a511d/src/ImmutableSplitsDriver.sol#L53-L68) function, the function calls ``dripsHub.setSplits``.
 
@@ -200,9 +200,9 @@ function _assertCallerIsDriver(uint32 driverId) internal view {
 
 Mitigation: add NatSpec to ``createSplits`` that a driver must register the address of the ``ImmutableSplitsDriver`` contract  first before calling this function. 
 
-QA12. ``currCycleConfigs`` is a bit confusing. It is actually always going to be 1 + the number of changes of configs in the current cycle. Maybe a name like ``CurrCycleConfigsPlusOne`` would be better. 
+QA11. ``currCycleConfigs`` is a bit confusing. It is actually always going to be 1 + the number of changes of configs in the current cycle. Maybe a name like ``CurrCycleConfigsPlusOne`` would be better. 
 
-QA13: Replay attack and signature check bypassing attack
+QA12: Replay attack and signature check bypassing attack
 [https://github.com/code-423n4/2023-01-drips/blob/9fd776b50f4be23ca038b1d0426e63a69c7a511d/src/Caller.sol#L164-L183](https://github.com/code-423n4/2023-01-drips/blob/9fd776b50f4be23ca038b1d0426e63a69c7a511d/src/Caller.sol#L164-L183)
 
 The signature in  ``callSigned*(`` can be replayed in another contract and/or blockchain since the signature does not sign the contract address and blockchain ID. Therefore, if the contract is deployed on another address and/or another chain, the same signature can be reused to have a replay attack.
