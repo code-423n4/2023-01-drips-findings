@@ -1,0 +1,8 @@
+{
+  "contest": 209,
+  "handle": "kaden",
+  "risk": "2",
+  "title": "DoS with block gas limit in `squeezeDrips`",
+  "issueId": 291,
+  "issueUrl": "https://github.com/code-423n4/2023-01-drips-findings/issues/291"
+}
