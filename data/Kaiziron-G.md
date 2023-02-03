@@ -125,3 +125,16 @@ https://github.com/code-423n4/2023-01-drips/blob/main/src/Splits.sol#L244
 https://github.com/code-423n4/2023-01-drips/blob/main/src/Caller.sol#L173
 
 ---
+## [G-06] Setting the constructor to payable 
+
+Making the constructor to payable can eliminate the check for `msg.value`, saving 13 gas on deployment
+
+*There are 8 instances of this issue*
+https://github.com/code-423n4/2023-01-drips/blob/main/src/AddressDriver.sol#L30
+https://github.com/code-423n4/2023-01-drips/blob/main/src/Drips.sol#L219
+https://github.com/code-423n4/2023-01-drips/blob/main/src/DripsHub.sol#L109
+https://github.com/code-423n4/2023-01-drips/blob/main/src/ImmutableSplitsDriver.sol#L28
+https://github.com/code-423n4/2023-01-drips/blob/main/src/Managed.sol#L73
+https://github.com/code-423n4/2023-01-drips/blob/main/src/Managed.sol#L158
+https://github.com/code-423n4/2023-01-drips/blob/main/src/NFTDriver.sol#L32
+https://github.com/code-423n4/2023-01-drips/blob/main/src/Splits.sol#L94
