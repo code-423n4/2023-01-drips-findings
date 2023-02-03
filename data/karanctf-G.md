@@ -1,4 +1,4 @@
-[G-1]
+## [G-1]
 Use proper viarable packing for state vairables to save gas in contract `DripsHub.sol#54`
 In below code snipet use to save gas as Each storage slot in a smart contract costs gas. To save gas, Solidity contracts can be arranged so that multiple variables fit in a single slot. This strategy is known as variable packing and when packed variables are used together it can drastically reduce gas costs.
 ```solidity
