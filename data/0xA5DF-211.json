@@ -1,0 +1,8 @@
+{
+  "contest": 209,
+  "handle": "0xA5DF",
+  "risk": "2",
+  "title": "Centralization risk: Proxy admin and pauser have the power to steal/freeze all funds",
+  "issueId": 211,
+  "issueUrl": "https://github.com/code-423n4/2023-01-drips-findings/issues/211"
+}
