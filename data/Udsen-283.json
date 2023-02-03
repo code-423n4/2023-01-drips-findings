@@ -1,0 +1,8 @@
+{
+  "contest": 209,
+  "handle": "Udsen",
+  "risk": "2",
+  "title": "UNEXPECTED DATA LOSS IS POSSIBLE DUE TO UNSAFE DOWN CASTING OF UINT40 TO UINT32",
+  "issueId": 283,
+  "issueUrl": "https://github.com/code-423n4/2023-01-drips-findings/issues/283"
+}
