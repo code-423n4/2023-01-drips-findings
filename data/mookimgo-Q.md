@@ -1,4 +1,4 @@
-# 1. incompatible with fee-on-transfer tokens and rebasing tokens
+# 1. incompatible with fee-on-transfer tokens and rebasing tokens, this is different from docs
 
 For those tokens with fee enabled for transfering or balance-rebasing tokens, this protocol will not work.
 This should be noted on docs, instead of claiming that `Drips v2 allows streaming of any ERC20 token.`
