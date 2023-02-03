@@ -1,0 +1,8 @@
+{
+  "contest": 209,
+  "handle": "Breeje",
+  "risk": "2",
+  "title": "`_updateReceiverStates` CAN WORK INCORRECTLY WHEN CURRENT RECEIVER AND NEW RECEIVER MATCHES WITH UPDATED DRIP TIMES ",
+  "issueId": 294,
+  "issueUrl": "https://github.com/code-423n4/2023-01-drips-findings/issues/294"
+}
