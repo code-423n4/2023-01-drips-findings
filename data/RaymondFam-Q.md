@@ -123,3 +123,17 @@ Here are the two specific instances entailed:
             // slither-disable-next-line weak-prng
             int256 nextCycle = (int256(timestamp % _cycleSecs) * amtPerSec) / amtPerSecMultiplier;
 ```
+## Missing @return on function NatSpec
+The protocol provides very adequate NatSpec in the code bases except for some minor missing parts in the function comments.
+
+For instance, it would be perfect if the function instances below could also have `@return` included in their respective NatSpec:
+
+[File: Drips.sol](https://github.com/code-423n4/2023-01-drips/blob/main/src/Drips.sol)
+
+```solidity
+970:    function _dripsRangeInFuture(DripsReceiver memory receiver, uint32 updateTime, uint32 maxEnd)
+
+985:    function _dripsRange(
+
+1093:    function _drippedAmt(uint256 amtPerSec, uint256 start, uint256 end)
+```
