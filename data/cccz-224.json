@@ -1,0 +1,8 @@
+{
+  "contest": 209,
+  "handle": "cccz",
+  "risk": "2",
+  "title": "Caller.callAs/callSigned/callBatched does not refund the remaining ETH and these ETH can be used by others in callBatched",
+  "issueId": 224,
+  "issueUrl": "https://github.com/code-423n4/2023-01-drips-findings/issues/224"
+}
