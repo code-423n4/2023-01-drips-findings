@@ -1,0 +1,8 @@
+{
+  "contest": 209,
+  "handle": "hihen",
+  "risk": "2",
+  "title": "Users' tokens will be trapped if driver is registered with or updated to the address 0",
+  "issueId": 250,
+  "issueUrl": "https://github.com/code-423n4/2023-01-drips-findings/issues/250"
+}
