@@ -25,3 +25,9 @@ Setting up state storage withou checking the parameter `driverAddr` for `address
         emit DriverRegistered(driverId, driverAddr);
     }
 ```
+
+## Too centralized admin powers, risk of loosing the protocol due to unadverted admin when changing admin on any `Managed` contract using `changeAdmin`
+
+[`Managed.sol#L84`](https://github.com/code-423n4/2023-01-drips/blob/9fd776b50f4be23ca038b1d0426e63a69c7a511d/src/Managed.sol#L84)
+
+### Suggestion: use two steps changing admin, where the new admin has to confirm (only then the state variable is updated). Another way is to implement admin `ROLES`, where more than one admin can be set 
