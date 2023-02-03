@@ -1,0 +1,8 @@
+{
+  "contest": 209,
+  "handle": "evan",
+  "risk": "3",
+  "title": "Drips that end after the current cycle but before its creation can allow users to profit from squeezing",
+  "issueId": 315,
+  "issueUrl": "https://github.com/code-423n4/2023-01-drips-findings/issues/315"
+}
