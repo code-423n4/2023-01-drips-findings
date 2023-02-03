@@ -8,6 +8,7 @@
 | [GAS-1] | State variables are not packed together | 2 |
 | [GAS-2] | Functions that will be called more often (like public/external) should be higher in a file structure | 7 |
 | [GAS-3] | Lack of unchecked keyword inside for loops | 9 |
+| [GAS-4] | Use private instead of public for constant | 7 |
 ### [GAS-1] State variables are not packed together
 State variables should be stored together to save gas, e.g. uint8 with uint32, etc. Moreover if uint8 state variable will be called and later on we try to access uint32 state variable (which is in the same storage slot) it will be treated as a warm storage (even if its our first contact with that variable) and thus it will only cost 100 gas instead of 2100 gas to use it.
 
@@ -79,5 +80,21 @@ File: DripsHub.sol
 File: ImmutableSplitsDriver.sol
 
 61:    for (uint256 i = 0; i < receivers.length; i++) {
+
+```
+### [GAS-4] Use private instead of public for constant
+Public constant in solidity require that their value is known at compile time, so their value must be included in the contract code. This results in a larger contract size, which in turn requires more gas to deploy the contract.
+
+*Instances (7)*:
+```solidity
+File: DripsHub.sol
+
+56:    uint256 public constant MAX_DRIPS_RECEIVERS = _MAX_DRIPS_RECEIVERS;
+58:    uint8 public constant AMT_PER_SEC_EXTRA_DECIMALS = _AMT_PER_SEC_EXTRA_DECIMALS;
+60:    uint256 public constant AMT_PER_SEC_MULTIPLIER = _AMT_PER_SEC_MULTIPLIER;
+62:    uint256 public constant MAX_SPLITS_RECEIVERS = _MAX_SPLITS_RECEIVERS;
+64:    uint32 public constant TOTAL_SPLITS_WEIGHT = _TOTAL_SPLITS_WEIGHT;
+67:    uint256 public constant DRIVER_ID_OFFSET = 224;
+70:    uint256 public constant MAX_TOTAL_BALANCE = _MAX_TOTAL_DRIPS_BALANCE;
 
 ```
