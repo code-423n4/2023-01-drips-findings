@@ -152,8 +152,8 @@ Mitigation: Cached  `uint32 cycleStart = _currCycleStart();`
 ```diff
           currCycleConfigs = 1;
             // slither-disable-next-line timestamp
-+         uint32 cycleStart = _currCycleStart();
-          if (sender.updateTime >= cycleStart) currCycleConfigs = sender.currCycleConfigs;
++         uint32 cycleStart = _currCycleStart(); 
+          if (sender.updateTime >= cycleStart) currCycleConfigs = sender.currCycleConfigs;  //@audit gas: SLOAD 1  _currCycleStart()
           }
           squeezedRevIdxs = new uint256[](dripsHistory.length);
           uint32[2 ** 32] storage nextSqueezed =
@@ -163,7 +163,7 @@ Mitigation: Cached  `uint32 cycleStart = _currCycleStart();`
           DripsHistory memory drips = dripsHistory[dripsHistory.length - i];
           if (drips.receivers.length != 0) {
                 uint32 squeezeStartCap = nextSqueezed[currCycleConfigs - i];
-                if (squeezeStartCap < cycleStart) squeezeStartCap = cycleStart;
+                if (squeezeStartCap < cycleStart) squeezeStartCap = cycleStart;  //@audit gas: SLOAD 2   _currCycleStart()
                 if (squeezeStartCap < squeezeEndCap) {
                     squeezedRevIdxs[squeezedNum++] = i;
                     amt += _squeezedAmt(userId, drips, squeezeStartCap, squeezeEndCap);
