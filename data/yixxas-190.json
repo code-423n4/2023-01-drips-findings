@@ -1,0 +1,8 @@
+{
+  "contest": 209,
+  "handle": "yixxas",
+  "risk": "2",
+  "title": "It is possible for the bits used to store `driverId` in `userId` to be corrupted",
+  "issueId": 190,
+  "issueUrl": "https://github.com/code-423n4/2023-01-drips-findings/issues/190"
+}
