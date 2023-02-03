@@ -1,0 +1,8 @@
+{
+  "contest": 209,
+  "handle": "wait",
+  "risk": "2",
+  "title": "Proxy admin of DripsHub, AddressDriver, NFTDriver and ImmutableSplitsDriver can steal users' tokens by upgrading the contract",
+  "issueId": 240,
+  "issueUrl": "https://github.com/code-423n4/2023-01-drips-findings/issues/240"
+}
