@@ -1,0 +1,8 @@
+{
+  "contest": 209,
+  "handle": "immeas",
+  "risk": "2",
+  "title": "low value splits can be abused by receivers with higher shares",
+  "issueId": 176,
+  "issueUrl": "https://github.com/code-423n4/2023-01-drips-findings/issues/176"
+}
