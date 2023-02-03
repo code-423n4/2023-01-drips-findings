@@ -1,0 +1,8 @@
+{
+  "contest": 209,
+  "handle": "prc",
+  "risk": "2",
+  "title": "Admin role lockout possible",
+  "issueId": 271,
+  "issueUrl": "https://github.com/code-423n4/2023-01-drips-findings/issues/271"
+}
