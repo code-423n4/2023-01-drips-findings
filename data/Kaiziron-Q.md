@@ -5,15 +5,18 @@ For security, it is best practice to use the latest Solidity version.
 
 An old version is used (0.8.17), it is recommended to use the latest version (0.8.18)
 
-*There are 8 instances of this issue*
-https://github.com/code-423n4/2023-01-drips/blob/main/src/Managed.sol#L2#Lpragma solidity ^0.8.17;
-https://github.com/code-423n4/2023-01-drips/blob/main/src/Drips.sol#L2#Lpragma solidity ^0.8.17;
-https://github.com/code-423n4/2023-01-drips/blob/main/src/DripsHub.sol#L2#Lpragma solidity ^0.8.17;
-https://github.com/code-423n4/2023-01-drips/blob/main/src/ImmutableSplitsDriver.sol#L2#Lpragma solidity ^0.8.17;
-https://github.com/code-423n4/2023-01-drips/blob/main/src/Splits.sol#L2#Lpragma solidity ^0.8.17;
-https://github.com/code-423n4/2023-01-drips/blob/main/src/AddressDriver.sol#L2#Lpragma solidity ^0.8.17;
-https://github.com/code-423n4/2023-01-drips/blob/main/src/NFTDriver.sol#L2#Lpragma solidity ^0.8.17;
-https://github.com/code-423n4/2023-01-drips/blob/main/src/Caller.sol#L2#Lpragma solidity ^0.8.17;
+foundry.toml :
+```
+[profile.default]
+solc_version = '0.8.17'
+optimizer_runs = 7_000
+verbosity = 1
+fuzz_runs = 5
+[fmt]
+line_length = 100
+[fuzz]
+runs = 4
+```
 
 ---
 ## Low risk issues
