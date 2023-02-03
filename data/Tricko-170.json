@@ -1,0 +1,8 @@
+{
+  "contest": 209,
+  "handle": "Tricko",
+  "risk": "2",
+  "title": "Cross-chain replay attacks are possible with `callSigned`",
+  "issueId": 170,
+  "issueUrl": "https://github.com/code-423n4/2023-01-drips-findings/issues/170"
+}
