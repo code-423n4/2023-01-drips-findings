@@ -18,8 +18,9 @@
 | [G-15] |Setting the _constructor_ to `payable` |8|
 | [G-16] |Optimize names to save gas |All Contracts|
 | [G-17] |Use Minimalist and gas efficient standard ``ERC721`` implementation ||
+| [G-18] |Using private rather than public for constants, saves gas |3|
 
-Total 17 issues
+Total 18 issues
 
 ### [G-01] Starting from Solidity '0.8.13', typing 'unchecked' increases gas cost by 3x
 
@@ -732,3 +733,22 @@ Project Use OpenZeppelin ``ERC721`` nft contract.
 I recommend using the minimalist and gas-efficient standard ERC1155 implementation.
 
 Reference: https://github.com/transmissions11/solmate/blob/main/src/tokens/ERC721.sol
+
+### [G-18] Using private rather than public for constants, saves gas
+
+If needed, the values can be read from the verified contract source code, or if there are multiple values there can be a single getter function that returns a tuple of the values of all currently-public constants.
+
+
+3 results 1 file:
+
+```solidity
+src\DripsHub.sol:
+
+   56:     uint256 public constant MAX_DRIPS_RECEIVERS = _MAX_DRIPS_RECEIVERS;
+
+   67:    uint256 public constant DRIVER_ID_OFFSET = 224;
+
+   70:    uint256 public constant MAX_TOTAL_BALANCE = _MAX_TOTAL_DRIPS_BALANCE;
+```
+https://github.com/code-423n4/2023-01-drips/blob/main/src/DripsHub.sol#L56
+
