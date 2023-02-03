@@ -20,6 +20,7 @@
 | GAS-14 | Usage of `uint`/`int` smaller than 32 bytes (256 bits) incurs                                         | all contracts |
 | GAS-15 | NOT USING THE NAMED RETURN VARIABLES WHEN A FUNCTION RETURNS, WASTES DEPLOYMENT GAS                   |       3       |
 | GAS-16 | NOT USING THE NAMED RETURN VARIABLES IN THE FUNCTION IS CONFUSING                                     |      10       |
+| GAS-17 | `REQUIRE()`/`REVERT()` STRINGS LONGER THAN 32 BYTES COST EXTRA GAS                                    |       1       |
 
 ### [GAS-1] `<x> += <y>`/`<x> -= <y>` costs more gas than `<x> = <x> + <y>`/`<x> = <x> - <y>` for state variables
 
@@ -1187,3 +1188,18 @@ File: NFTDriver.sol
 #### Recommende Mitigation Steps
 
 Consider adopting a consistent approach to return values throughout the codebase by adding everywhere named return variables.
+
+### [GAS-17] `REQUIRE()`/`REVERT()` STRINGS LONGER THAN 32 BYTES COST EXTRA GAS
+
+#### **Proof Of Concept**
+
+```solidity
+File: Splits.sol
+
+239:                 require(prevUserId < userId, "Splits receivers not sorted by user ID");
+
+```
+
+#### Recommended Mitigation Steps:
+
+Error definitions should be added to the require block, not exceeding 32 bytes or we should use custom errors
