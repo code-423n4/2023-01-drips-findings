@@ -1,0 +1,8 @@
+{
+  "contest": 209,
+  "handle": "berndartmueller",
+  "risk": "2",
+  "title": "`ImmutableSplitsDriver` is not immutable",
+  "issueId": 278,
+  "issueUrl": "https://github.com/code-423n4/2023-01-drips-findings/issues/278"
+}
