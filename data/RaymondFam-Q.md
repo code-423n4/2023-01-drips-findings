@@ -59,3 +59,67 @@ For instance, the `a = false` instance below may be refactored as follows:
 -        _managedStorage().isPaused = false;
 +        delete _managedStorage().isPaused;
 ```
+## Unspecific compiler version pragma
+For some source-units the compiler version pragma is very unspecific, i.e. ^0.8.17. While this often makes sense for libraries to allow them to be included with multiple different versions of an application, it may be a security risk for the actual application implementation itself. A known vulnerable compiler version may accidentally be selected or security tools might fall-back to an older compiler version ending up actually checking a different EVM compilation that is ultimately deployed on the blockchain.
+
+Avoid floating pragmas where possible. It is highly recommend pinning a concrete compiler version (latest without security issues) in at least the top-level “deployed” contracts to make it unambiguous which compiler version is being used. Rule of thumb: a flattened source-unit should have at least one non-floating concrete solidity compiler version pragma.
+
+## Make use of scientific notation
+Constants entailing huge numerals could adopt scientific notation for better readability while minimizing human input error.
+
+For instance, the specific instance below may be refactored as:
+
+[File: Drips.sol#L110](https://github.com/code-423n4/2023-01-drips/blob/main/src/Drips.sol#L110)
+
+```diff
+-    uint256 internal constant _AMT_PER_SEC_MULTIPLIER = 1_000_000_000;
++    uint256 internal constant _AMT_PER_SEC_MULTIPLIER = 1e9;
+```
+## Sanity checks at the constructor
+Adequate zero address and zero value checks should be implemented at the constructor to avoid accidental error(s) that could result in non-functional calls associated with it particularly when assigning immutable variables.
+
+Here is a specific instance entailed:
+
+[File: DripsHub.sol#L109-L114](https://github.com/code-423n4/2023-01-drips/blob/main/src/DripsHub.sol#L109-L114)
+
+```diff
+    constructor(uint32 cycleSecs_)
+        Drips(cycleSecs_, _erc1967Slot("eip1967.drips.storage"))
+        Splits(_erc1967Slot("eip1967.splits.storage"))
+    {
++        require(cycleSecs_ != 0, "Zaro value input");
+        return;
+    }
+```
+## Early return in constructor forbidden if child contract has immutable fields
+According to the link below: 
+
+https://github.com/ethereum/solidity/issues/12379
+
+The constructor may fail to compile if it contains an return statement and another contract containing immutable fields inherits from it.
+
+Although no other contracts in the protocol are inheriting from DripsHub.sol, care must be given for any future instances that might do so.
+
+[File: DripsHub.sol#L109-L114](https://github.com/code-423n4/2023-01-drips/blob/main/src/DripsHub.sol#L109-L114) 
+
+```solidity
+    constructor(uint32 cycleSecs_)
+        Drips(cycleSecs_, _erc1967Slot("eip1967.drips.storage"))
+        Splits(_erc1967Slot("eip1967.splits.storage"))
+    {
+        return;
+    }
+```
+## Loss of precision due to rounding by big division
+Consider scaling up the numerator(s) if need be when entailing a a big divisor (denominator), e.g. _AMT_PER_SEC_MULTIPLIER = 1_000_000_000 in Drips.sol, to minimize rounding issues.
+
+Here are the two specific instances entailed:
+
+[File: Drips.sol#L1044-L1047](https://github.com/code-423n4/2023-01-drips/blob/main/src/Drips.sol#L1044-L1047)
+
+```solidity
+            int256 amtPerSecMultiplier = int256(_AMT_PER_SEC_MULTIPLIER);
+            int256 fullCycle = (int256(uint256(_cycleSecs)) * amtPerSec) / amtPerSecMultiplier;
+            // slither-disable-next-line weak-prng
+            int256 nextCycle = (int256(timestamp % _cycleSecs) * amtPerSec) / amtPerSecMultiplier;
+```
