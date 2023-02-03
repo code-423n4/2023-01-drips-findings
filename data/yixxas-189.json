@@ -1,0 +1,8 @@
+{
+  "contest": 209,
+  "handle": "yixxas",
+  "risk": "2",
+  "title": "`callBatched()` allows user to send more ether than what is being utilised",
+  "issueId": 189,
+  "issueUrl": "https://github.com/code-423n4/2023-01-drips-findings/issues/189"
+}
