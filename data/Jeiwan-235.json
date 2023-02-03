@@ -1,0 +1,8 @@
+{
+  "contest": 209,
+  "handle": "Jeiwan",
+  "risk": "2",
+  "title": "Loss of split amount due to rounding in low-decimal tokens",
+  "issueId": 235,
+  "issueUrl": "https://github.com/code-423n4/2023-01-drips-findings/issues/235"
+}
