@@ -18,7 +18,9 @@ https://github.com/code-423n4/2023-01-drips/blob/main/src/Managed.sol#L73-L75
 
 As written in https://docs.openzeppelin.com/upgrades-plugins/1.x/writing-upgradeable
 
-You can use your Solidity contracts with OpenZeppelin Upgrades without any modifications, except for their constructors. Due to a requirement of the proxy-based upgradeability system, no constructors can be used in upgradeable contracts. 
+1. You can use your Solidity contracts with OpenZeppelin Upgrades without any modifications, except for their constructors. Due to a requirement of the proxy-based upgradeability system, no constructors can be used in upgradeable contracts. 
+
+2. When writing an initializer, you need to take special care to manually call the initializers of all parent contracts. Also, Openzeppelin has a contracts wizard feature that allows users to use the interactive generator to bootstrap contracts (See https://docs.openzeppelin.com/contracts/4.x/wizard). In the wizard page, try to click the UUPS checkbox, you can see the following code
 
 Recommend changing from
 
@@ -30,6 +32,7 @@ to
 
 function initialize() public initializer {
   _managedStorage().isPaused = true;
+  __UUPSUpgradeable_init();
 }
 
 3. 
