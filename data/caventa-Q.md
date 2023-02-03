@@ -8,31 +8,92 @@ Managed.sol should contain storage gap. The storage gap is essential for upgrade
 
 Recommend adding an appropriate storage gap at the end of upgradeable contracts such as the below. Please reference OpenZeppelin upgradeable contract templates.
 
+```solidity
 uint256[50] private __gap;
+```
 
 2.
 
-See
+See the constructor of 
 
-https://github.com/code-423n4/2023-01-drips/blob/main/src/Managed.sol#L73-L75
+Managed.sol and its child contract = AddressDriver.sol, NFTDriver.sol and ImmutableSplitDriver.sol
 
 As written in https://docs.openzeppelin.com/upgrades-plugins/1.x/writing-upgradeable
 
 You can use your Solidity contracts with OpenZeppelin Upgrades without any modifications, except for their constructors. Due to a requirement of the proxy-based upgradeability system, no constructors can be used in upgradeable contracts. 
 
+Also, see https://forum.openzeppelin.com/t/how-does-inheritance-work-in-upgradeable-contracts/28974/4 to know the best practice to see how inheritance works in the upgradable contract
+
 Recommend the following changes
 
+For managed.sol,
+
+```solidity
 +++ import {Initializable} from "openzeppelin-contracts/proxy/utils/Initializable.sol";
+
 --- abstract contract Managed is UUPSUpgradeable {
 +++ abstract contract Managed is UUPSUpgradeable, Initializable {
 
 --- constructor() {
 ---      _managedStorage().isPaused = true;
 --- }
-
-+++ function initialize() public initializer {
++++  function initialize() public onlyInitializing {
 +++  _managedStorage().isPaused = true;
 +++}
+```
+
+For AddressDriver.sol,
+
+```solidity
+---    constructor(DripsHub _dripsHub, address forwarder, uint32 _driverId)
+---        ERC2771Context(forwarder)
+---    {
+---       dripsHub = _dripsHub;
+---       driverId = _driverId;
+---    }
+
++++ function initialize(DripsHub _dripsHub, address forwarder, uint32 _driverId) ERC2771Context(forwarder) initializer {
++++         initialize();
++++         dripsHub = _dripsHub;
++++         driverId = _driverId;
++++     }
+```
+
+For ImmutableSplitDriver.sol,
+
+```solidity
+--- constructor(DripsHub _dripsHub, uint32 _driverId) {
+---         dripsHub = _dripsHub;
+---         driverId = _driverId;
+---         totalSplitsWeight = _dripsHub.TOTAL_SPLITS_WEIGHT();
+---     }
+
++++  function initialize(DripsHub _dripsHub, uint32 _driverId) initializer {
++++          initialize();
++++          dripsHub = _dripsHub;
++++          driverId = _driverId;
++++          totalSplitsWeight = _dripsHub.TOTAL_SPLITS_WEIGHT();
++++      }
+```
+
+For NFTDriver.sol,
+
+```solidity
+---    constructor(DripsHub _dripsHub, address forwarder, uint32 _driverId)
+---        ERC2771Context(forwarder)
+---        ERC721("DripsHub identity", "DHI")
+---    {
+---        dripsHub = _dripsHub;
+---        driverId = _driverId;
+---    }
+
++++ function initialize(DripsHub _dripsHub, address forwarder, uint32 _driverId)
++++     ERC2771Context(forwarder) ERC721("DripsHub identity", "DHI") initializer {
++++        initialize();
++++         dripsHub = _dripsHub;
++++        driverId = _driverId;
++++     }
+```
 
 3.
 
@@ -46,16 +107,21 @@ Every openzeppelin object in AddressDriver and NFTDriver needs to use the upgrad
 
 a.
 
+```
 Run forge install https://github.com/OpenZeppelin/openzeppelin-contracts-upgradeable
+```
 
 b. 
 
+```
 Add openzeppelin-contracts-upgradeable/=lib/openzeppelin-contracts-upgradeable/contracts/ to remapping.txt
+```
 
 c. 
 
 Change AddressDriver.sol
 
+```solidity
 --- import {ERC2771Context} from "openzeppelin-contracts/metatx/ERC2771Context.sol";
 +++ import {ERC2771ContextUpgradeable} from "openzeppelin-contracts-upgradeable/metatx/ERC2771ContextUpgradeable.sol";
 
@@ -64,11 +130,13 @@ Change AddressDriver.sol
 
 ---   ERC2771Context(forwarder)
 +++ ERC2771ContextUpgradeable(forwarder)
+```
 
 d.
 
 Change NFTDriver.sol
 
+```solidity
 --- import {Context, ERC2771Context} from "openzeppelin-contracts/metatx/ERC2771Context.sol";
 --- import {IERC20, SafeERC20} from "openzeppelin-contracts/token/ERC20/utils/SafeERC20.sol";
 --- import {StorageSlot} from "openzeppelin-contracts/utils/StorageSlot.sol";
@@ -86,6 +154,7 @@ Change NFTDriver.sol
 +++ import "openzeppelin-contracts-upgradeable/token/ERC20/utils/SafeERC20Upgradeable.sol";
 +++ import "openzeppelin-contracts-upgradeable/interfaces/IERC20Upgradeable.sol";
 +++ import "openzeppelin-contracts-upgradeable/token/ERC721/ERC721Upgradeable.sol";
+```
 
 And refactor other openzeppelin objects accordingly (Add the word upgradable after the original variable names)
 
@@ -93,5 +162,7 @@ And refactor other openzeppelin objects accordingly (Add the word upgradable aft
 
 Kindly search across the solidity files and change the following typos
 
+```
 transferrable to transferable
 unauthorize to unauthorized
+```
