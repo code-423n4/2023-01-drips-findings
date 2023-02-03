@@ -19,9 +19,6 @@ This has been raised in past contest and isn't considered a significant issue (s
 
 
 
-## `_addDelta()`'s `timestamp` parameter should be `uint32`
-At `_addDelta()` the  [timestamp](https://github.com/code-423n4/2023-01-drips/blob/9fd776b50f4be23ca038b1d0426e63a69c7a511d/src/Drips.sol#L1040) parameter is `uint256`, even though the only 2 times it's being called a `uint32` is sent to it.
-This parameter is later being [unsafely casted](https://github.com/code-423n4/2023-01-drips/blob/9fd776b50f4be23ca038b1d0426e63a69c7a511d/src/Drips.sol#L1050) to `uint32` inside the function. This doesn't pause any risk in current code, but it should be changed in order to avoid issues in future code (and save some gas, adding this to gas report as well).
 
 ## At `ImmutableSplitsDriver` if user sends to himself the funds will be stuck forever
 Not sure to what extent the protocol needs to protect users from dumb mistakes, but it might be worth adding a check at `ImmutableSplitsDriver.createSplits()` that the user isn't sending to himself, since in that case there will always be some funds that will be stuck in the user's `splittable` balance.
