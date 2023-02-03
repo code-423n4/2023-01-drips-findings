@@ -30,7 +30,7 @@ The risk of for loops getting overflowed is extremely low. Because it always inc
 - [Splits.sol#L158-L166](https://github.com/code-423n4/2023-01-drips/blob/main/src/Splits.sol#L158-L166): `DripsHub: split()` gas saved: 10
 - [Splits.sol#L231-L243](https://github.com/code-423n4/2023-01-drips/blob/main/src/Splits.sol#L231-L243): `DripsHub: setSplits()` gas saved: 63
 
-There are ways to make a for loop unchecked in a safe way
+There are 2 ways to make a for loop unchecked in a safe way
 ```diff
 -       for (uint256 i = 0; i < calls.length; i++) {
 -       for (uint256 i = 0; i < calls.length;) {
